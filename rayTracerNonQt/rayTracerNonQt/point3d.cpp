@@ -13,13 +13,30 @@ Point3D::Point3D(int _x, int _y, int _z) :
 
 }
 
-Vector3D Point3D::operator-(Point3D &other)
+Vector3D Point3D::operator-(Point3D other)
 {
     Vector3D result;
     result.setX(this->x - other.getX());
     result.setY(this->y - other.getY());
     result.setZ(this->z - other.getZ());
+    return result;
 }
+
+Point3D Point3D::operator-(Vector3D other)
+{
+    Point3D result;
+    result.setX(this->x - other.getX());
+    result.setY(this->y - other.getY());
+    result.setZ(this->z - other.getZ());
+    return result;
+}
+
+Vector3D Point3D::toVector() const
+{
+    Vector3D result(this->x, this->y, this->z);
+    return result;
+}
+
 int Point3D::getX() const
 {
     return x;

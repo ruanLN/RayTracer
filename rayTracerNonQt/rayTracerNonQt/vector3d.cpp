@@ -54,19 +54,24 @@ double Vector3D::norm(Vector3D vec)
     return sqrt(vec.getX()*vec.getX() + vec.getY()*vec.getY() + vec.getZ()*vec.getZ());
 }
 
-void Vector3D::dotProduct(double scalar)
+void Vector3D::scalarProduct(double scalar)
 {
     this->x *= scalar;
     this->y *= scalar;
     this->z *= scalar;
 }
 
-Vector3D Vector3D::dotProduct(Vector3D vec, double scalar)
+Vector3D Vector3D::scalarProduct(Vector3D vec, double scalar)
 {
     vec.setX(vec.getX() * scalar);
     vec.setY(vec.getY() * scalar);
     vec.setZ(vec.getZ() * scalar);
     return vec;
+}
+
+double Vector3D::dotProduct(Vector3D other)
+{
+    return (this->getX() * other.getX()) + (this->getY() * other.getY()) + (this->getZ() * other.getZ());
 }
 
 Vector3D Vector3D::crossProduct(Vector3D other)

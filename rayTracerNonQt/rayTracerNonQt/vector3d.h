@@ -17,8 +17,10 @@ public:
     double norm();
     static double norm(Vector3D vec);
 
-    void dotProduct(double scalar);
-    static Vector3D dotProduct(Vector3D vec, double scalar);
+    void scalarProduct(double scalar);
+    static Vector3D scalarProduct(Vector3D vec, double scalar);
+
+    double dotProduct(Vector3D other);
 
     Vector3D crossProduct(Vector3D other);
     static Vector3D crossProduct(Vector3D vet1, Vector3D vet2);
