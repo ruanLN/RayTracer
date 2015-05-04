@@ -13,8 +13,16 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    raytracer.cpp \
+    color.cpp \
+    vector3d.cpp \
+    point3d.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    raytracer.h \
+    color.h \
+    vector3d.h \
+    point3d.h
 
 FORMS    += mainwindow.ui
