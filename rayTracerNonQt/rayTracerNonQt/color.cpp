@@ -5,12 +5,19 @@ Color::Color()
 
 }
 
-Color::Color(int red, int green, int blue) :
+Color::Color(double red, double green, double blue) :
     R(red),
     G(green),
     B(blue)
 {
 
+}
+
+void Color::normalize(double normalizeFactor)
+{
+    this->R = this->R / normalizeFactor;
+    this->G = this->G / normalizeFactor;
+    this->B = this->B / normalizeFactor;
 }
 
 std::list<Color> Color::nomalizeColors(std::list<Color> colorList)
@@ -19,32 +26,32 @@ std::list<Color> Color::nomalizeColors(std::list<Color> colorList)
     return normalizedColorList;//mock
 }
 
-int Color::getB() const
+double Color::getB() const
 {
     return B;
 }
 
-void Color::setB(int value)
+void Color::setB(double value)
 {
     B = value;
 }
 
-int Color::getG() const
+double Color::getG() const
 {
     return G;
 }
 
-void Color::setG(int value)
+void Color::setG(double value)
 {
     G = value;
 }
 
-int Color::getR() const
+double Color::getR() const
 {
     return R;
 }
 
-void Color::setR(int value)
+void Color::setR(double value)
 {
     R = value;
 }

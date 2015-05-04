@@ -6,21 +6,23 @@ class Color
 {
 public:
     Color();
-    Color(int red, int green, int blue);
+    Color(double red, double green, double blue);
+
+    void normalize(double normalizeFactor);
 
     static std::list<Color> nomalizeColors(std::list<Color> colorList);
 
-    int getB() const;
-    void setB(int value);
+    double getB() const;
+    void setB(double value);
 
-    int getG() const;
-    void setG(int value);
+    double getG() const;
+    void setG(double value);
 
-    int getR() const;
-    void setR(int value);
+    double getR() const;
+    void setR(double value);
 
 private:
-    int R, G, B; //or float R, G, B;
+    double R, G, B; //or int R, G, B;
 };
 
 #endif // COLOR_H

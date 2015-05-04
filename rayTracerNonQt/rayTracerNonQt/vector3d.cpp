@@ -1,11 +1,12 @@
 #include "vector3d.h"
+#include "cmath"
 
 Vector3D::Vector3D()
 {
 
 }
 
-Vector3D::Vector3D(int _x, int _y, int _z) :
+Vector3D::Vector3D(double _x, double _y, double _z) :
     x(_x),
     y(_y),
     z(_z)
@@ -43,6 +44,66 @@ Vector3D Vector3D::operator-(Vector3D &other)
     return result;
 }
 
+double Vector3D::norm()
+{
+    return norm((*this));
+}
+
+double Vector3D::norm(Vector3D vec)
+{
+    return sqrt(vec.getX()*vec.getX() + vec.getY()*vec.getY() + vec.getZ()*vec.getZ());
+}
+
+void Vector3D::dotProduct(double scalar)
+{
+    this->x *= scalar;
+    this->y *= scalar;
+    this->z *= scalar;
+}
+
+Vector3D Vector3D::dotProduct(Vector3D vec, double scalar)
+{
+    vec.setX(vec.getX() * scalar);
+    vec.setY(vec.getY() * scalar);
+    vec.setZ(vec.getZ() * scalar);
+    return vec;
+}
+
+Vector3D Vector3D::crossProduct(Vector3D other)
+{
+    Vector3D result;
+    result.setX(this->getY() * other.getZ() - this->getZ() * other.getY());
+    result.setY(this->getZ() * other.getX() - this->getX() * other.getZ());
+    result.setZ(this->getX() * other.getY() - this->getY() * other.getX());
+    return result;
+}
+
+Vector3D Vector3D::crossProduct(Vector3D vet1, Vector3D vet2)
+{
+    Vector3D result;
+    result.setX(vet1.getY() * vet2.getZ() - vet1.getZ() * vet2.getY());
+    result.setY(vet1.getZ() * vet2.getX() - vet1.getX() * vet2.getZ());
+    result.setZ(vet1.getX() * vet2.getY() - vet1.getY() * vet2.getX());
+    return result;
+}
+
+void Vector3D::normalize()
+{
+    double norm = this->norm();
+    this->x = this->x / norm;
+    this->y = this->y / norm;
+    this->z = this->z / norm;
+}
+
+Vector3D Vector3D::normalize(Vector3D vec)
+{
+    double norm = vec.norm();
+    vec.setX(vec.getX() / norm);
+    vec.setY(vec.getY() / norm);
+    vec.setZ(vec.getZ() / norm);
+    return vec;
+}
+
 std::string Vector3D::toString() const
 {
     std::ostringstream stringStream;
@@ -51,30 +112,30 @@ std::string Vector3D::toString() const
     return stringVec;
 }
 
-int Vector3D::getX() const
+double Vector3D::getX() const
 {
     return x;
 }
 
-void Vector3D::setX(int value)
+void Vector3D::setX(double value)
 {
     x = value;
 }
-int Vector3D::getY() const
+double Vector3D::getY() const
 {
     return y;
 }
 
-void Vector3D::setY(int value)
+void Vector3D::setY(double value)
 {
     y = value;
 }
-int Vector3D::getZ() const
+double Vector3D::getZ() const
 {
     return z;
 }
 
-void Vector3D::setZ(int value)
+void Vector3D::setZ(double value)
 {
     z = value;
 }
