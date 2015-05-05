@@ -12,6 +12,7 @@ public:
     Point3D(int _x, int _y, int _z);
 
     Vector3D operator-(Point3D other);
+    Point3D operator+(Vector3D other);
     Point3D operator-(Vector3D other);
 
     Vector3D toVector() const;

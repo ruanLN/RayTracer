@@ -54,11 +54,12 @@ double Vector3D::norm(Vector3D vec)
     return sqrt(vec.getX()*vec.getX() + vec.getY()*vec.getY() + vec.getZ()*vec.getZ());
 }
 
-void Vector3D::scalarProduct(double scalar)
+Vector3D& Vector3D::scalarProduct(double scalar)
 {
     this->x *= scalar;
     this->y *= scalar;
     this->z *= scalar;
+    return (*this);
 }
 
 Vector3D Vector3D::scalarProduct(Vector3D vec, double scalar)

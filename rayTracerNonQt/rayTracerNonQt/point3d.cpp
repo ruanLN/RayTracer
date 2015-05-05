@@ -22,6 +22,15 @@ Vector3D Point3D::operator-(Point3D other)
     return result;
 }
 
+Point3D Point3D::operator+(Vector3D other)
+{
+    Point3D result;
+    result.setX(this->x + other.getX());
+    result.setY(this->y + other.getY());
+    result.setZ(this->z + other.getZ());
+    return result;
+}
+
 Point3D Point3D::operator-(Vector3D other)
 {
     Point3D result;

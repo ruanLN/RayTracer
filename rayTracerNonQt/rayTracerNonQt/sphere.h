@@ -8,17 +8,17 @@ class Sphere : public DrawableObject
 public:
     Sphere();
 
-    virtual Intersection hitTest(Ray ray, bool *success);
+    virtual Intersection hitTest(Ray radius, bool *success);
 
     Point3D getCenter() const;
     void setCenter(const Point3D &value);
 
-    double getRay() const;
-    void setRay(double value);
+    double getRadius() const;
+    void setRadius(double value);
 
 private:
     Point3D center;
-    double ray;
+    double radius;
 };
 
 #endif // SPHERE_H

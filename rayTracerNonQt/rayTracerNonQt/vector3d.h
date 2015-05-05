@@ -17,7 +17,7 @@ public:
     double norm();
     static double norm(Vector3D vec);
 
-    void scalarProduct(double scalar);
+    Vector3D &scalarProduct(double scalar);
     static Vector3D scalarProduct(Vector3D vec, double scalar);
 
     double dotProduct(Vector3D other);
