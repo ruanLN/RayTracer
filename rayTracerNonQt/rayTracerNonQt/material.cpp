@@ -1,4 +1,5 @@
 #include "material.h"
+#include <sstream>
 
 Material::Material()
 {
@@ -48,6 +49,14 @@ double Material::getSpecularExponent() const
 void Material::setSpecularExponent(double value)
 {
     specularExponent = value;
+}
+
+std::string Material::toString() const
+{
+    std::ostringstream stringStream;
+    stringStream << "Color: " << this->materialColor << ", ka: " << this->ambientComponent << ", kd: " << this->diffuseComponent << ", ks: " << this->specularComponent << ", exp: " << this->specularExponent;
+    std::string stringPoint = stringStream.str();
+    return stringPoint;
 }
 
 

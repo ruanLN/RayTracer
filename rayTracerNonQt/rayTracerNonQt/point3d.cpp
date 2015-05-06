@@ -74,6 +74,14 @@ void Point3D::setZ(int value)
     z = value;
 }
 
+std::string Point3D::toString() const
+{
+    std::ostringstream stringStream;
+    stringStream << "( " << this->x << ", " << this->y << ", " << this->z << ")";
+    std::string stringPoint = stringStream.str();
+    return stringPoint;
+}
+
 
 
 

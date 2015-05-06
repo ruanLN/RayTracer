@@ -26,6 +26,13 @@ public:
     int getRenderedImageWidth() const;
     void setRenderedImageWidth(int value);
 
+    //debug purposes
+    std::string toString() const;
+    friend std::ostream& operator<<(std::ostream& stream, const Camera& cam)
+    {
+        stream << cam.toString();
+        return stream;
+    }
 private:
     Point3D position;
     Vector3D upVector;

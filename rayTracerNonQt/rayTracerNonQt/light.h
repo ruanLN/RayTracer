@@ -17,6 +17,13 @@ public:
     Color getColor() const;
     void setColor(const Color &value);
 
+    //debug purposes
+    std::string toString() const;
+    friend std::ostream& operator<<(std::ostream& stream, const Light& vec)
+    {
+        stream << vec.toString();
+        return stream;
+    }
 private:
     Point3D position;
     //Vector3D direction; //non-directional light

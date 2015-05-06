@@ -1,6 +1,8 @@
 #ifndef COLOR_H
 #define COLOR_H
 #include <list>
+#include <string>
+#include <ostream>
 
 class Color
 {
@@ -21,6 +23,13 @@ public:
     double getR() const;
     void setR(double value);
 
+    //debug purposes
+    std::string toString() const;
+    friend std::ostream& operator<<(std::ostream& stream, const Color& cam)
+    {
+        stream << cam.toString();
+        return stream;
+    }
 private:
     double R, G, B; //or int R, G, B;
 };

@@ -26,6 +26,13 @@ public:
     int getZ() const;
     void setZ(int value);
 
+    //debug purposes
+    std::string toString() const;
+    friend std::ostream& operator<<(std::ostream& stream, const Point3D& vec)
+    {
+        stream << vec.toString();
+        return stream;
+    }
 private:
     int x, y, z;
 };

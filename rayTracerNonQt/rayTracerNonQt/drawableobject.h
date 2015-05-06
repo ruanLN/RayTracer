@@ -17,6 +17,13 @@ public:
 
     Color getPointColor(Intersection intersection);
 
+    //debug purposes
+    virtual std::string toString() const;
+    friend std::ostream& operator<<(std::ostream& stream, const DrawableObject& obj)
+    {
+        stream << obj.toString();
+        return stream;
+    }
 private:
     Material objectMaterial;
 };

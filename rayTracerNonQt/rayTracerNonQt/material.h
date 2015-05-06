@@ -25,6 +25,13 @@ public:
     double getSpecularExponent() const;
     void setSpecularExponent(double value);
 
+    //debug purposes
+    std::string toString() const;
+    friend std::ostream& operator<<(std::ostream& stream, const Material& mat)
+    {
+        stream << mat.toString();
+        return stream;
+    }
 private:
     Color materialColor;
     double ambientComponent, diffuseComponent, specularComponent;

@@ -18,3 +18,11 @@ Color DrawableObject::getPointColor(Intersection intersection)
 {
     return objectMaterial.getMaterialColor();
 }
+
+std::string DrawableObject::toString() const
+{
+    std::ostringstream stringStream;
+    stringStream << "Material: " << this->objectMaterial.toString();
+    std::string stringPoint = stringStream.str();
+    return stringPoint;
+}

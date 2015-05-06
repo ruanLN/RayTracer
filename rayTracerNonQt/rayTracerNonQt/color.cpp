@@ -1,4 +1,5 @@
 #include "color.h"
+#include <sstream>
 
 Color::Color()
 {
@@ -54,6 +55,14 @@ double Color::getR() const
 void Color::setR(double value)
 {
     R = value;
+}
+
+std::string Color::toString() const
+{
+    std::ostringstream stringStream;
+    stringStream << "( " << this->R << ", " << this->G << ", " << this->B << ")";
+    std::string stringPoint = stringStream.str();
+    return stringPoint;
 }
 
 

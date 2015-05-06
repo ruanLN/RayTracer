@@ -30,5 +30,13 @@ void Light::setColor(const Color &value)
     color = value;
 }
 
+std::string Light::toString() const
+{
+    std::ostringstream ss;
+    ss << "Pos: " << this->position.toString() << "; color: " << this->color.toString();
+    std::string stringCam = ss.str();
+    return stringCam;
+}
+
 
 

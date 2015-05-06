@@ -50,6 +50,14 @@ void Camera::setRenderedImageWidth(int value)
     renderedImageWidth = value;
 }
 
+std::string Camera::toString() const
+{
+    std::ostringstream ss;
+    ss << "Pos: " << this->position.toString() << "; up: " << this->upVector.toString() << "; eye: " << this->eyeVector.toString();
+    std::string stringCam = ss.str();
+    return stringCam;
+}
+
 
 
 
