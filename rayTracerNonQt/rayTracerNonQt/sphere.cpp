@@ -54,3 +54,12 @@ void Sphere::setRadius(double value)
     radius = value;
 }
 
+
+
+std::string Sphere::toString() const
+{
+    std::ostringstream stringStream;
+    stringStream << "Center: " << this->center.toString() << " Radius: " << this->radius << " " << DrawableObject::toString();
+    std::string stringPoint = stringStream.str();
+    return stringPoint;
+}

@@ -13,7 +13,7 @@ void operator >> (const YAML::Node& node, Color& t);
 void operator >> (const YAML::Node& node, Point3D &t)
 {
     assert(node.size()==3);
-    int x,y,z;
+    double x,y,z;
     node[0] >> x;
     node[1] >> y;
     node[2] >> z;
@@ -25,7 +25,7 @@ void operator >> (const YAML::Node& node, Point3D &t)
 void operator >> (const YAML::Node& node, Vector3D &t)
 {
     assert(node.size()==3);
-    int x,y,z;
+    double x,y,z;
     node[0] >> x;
     node[1] >> y;
     node[2] >> z;
@@ -37,7 +37,7 @@ void operator >> (const YAML::Node& node, Vector3D &t)
 void operator >> (const YAML::Node& node, Color &t)
 {
     assert(node.size()==3);
-    int x,y,z;
+    double x,y,z;
     node[0] >> x;
     node[1] >> y;
     node[2] >> z;
@@ -106,6 +106,15 @@ bool Scene::readScene(const std::string &inputFilename)
      return true;
 }
 
+bool Scene::renderScene(const std::string &outputFilename)
+{
+    Image img(this->eye.getRenderedImageWidth(), this->eye.getRenderedImageHeight());
+
+    this->renderImage(img);
+
+    img.writeImage(outputFilename);
+}
+
 Camera Scene::parseEye(const YAML::Node &node)
 {
     Camera cam;
@@ -120,6 +129,8 @@ Camera Scene::parseEye(const YAML::Node &node)
     cam.setPosition(position);
     cam.setEyeVector(eye);
     cam.setUpVector(up);
+    cam.setRenderedImageWidth(w);
+    cam.setRenderedImageHeight(h);
     return cam;
 }
 
@@ -158,6 +169,40 @@ std::string Scene::toString() const
     }
     std::string stringScene = ss.str();
     return stringScene;
+}
+
+bool Scene::renderImage(Image &img)
+{
+    for(int i = 0; i < 20; i++) {
+        for(int j = 0; j < 20; j++) {
+            img.setPixel(i, j, Color(1.0, 0, 0));
+        }
+    }
+    int w = img.getWidth();
+    int h = img.getHeight();
+    for (int y = 0; y < h; y++) {
+        for (int x = 0; x < w; x++) {
+            Point3D pixel(x+0.5, h-1-y+0.5, 0);
+            Vector3D dir = pixel - eye.getPosition();
+            dir.normalize();
+            Ray ray;
+            ray.setOrigin(eye.getPosition());
+            ray.setDirection(dir);
+            std::list<DrawableObject*>::iterator it;
+            Color col;// = trace(ray);
+            for(it = objects.begin(); it != objects.end(); it++) {
+                bool success;
+                Intersection intersec = (*it)->hitTest(ray, &success);
+                if(success) {
+                    //Point3D intersecPoint = intersec.getIntersectionPoint();
+                    col = (*it)->getPointColor(intersec);
+                }
+            }
+            col.clamp();
+            img.setPixel(x, y, col);
+        }
+    }
+    return true;
 }
 
 DrawableObject *Scene::parseObject(const YAML::Node &node)

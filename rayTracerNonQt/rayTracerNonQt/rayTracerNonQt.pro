@@ -37,7 +37,9 @@ SOURCES += main.cpp \
     yaml/sequence.cpp \
     yaml/simplekey.cpp \
     yaml/stream.cpp \
-    scene.cpp
+    scene.cpp \
+    png/lodepng.cpp \
+    image.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -92,7 +94,9 @@ HEADERS += \
     yaml/streamcharsource.h \
     yaml/stringsource.h \
     yaml/token.h \
-    yaml/yaml.h
+    yaml/yaml.h \
+    png/lodepng.h \
+    image.h
 
 DISTFILES +=
 

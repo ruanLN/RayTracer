@@ -13,7 +13,7 @@ int main()
 
     Scene scene;
     scene.readScene("scene01.yaml");
-
+    scene.renderScene("scene01.png");
     std::cout << scene.toString();
     return 0;
 }

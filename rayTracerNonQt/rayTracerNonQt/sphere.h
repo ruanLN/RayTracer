@@ -9,6 +9,7 @@ public:
     Sphere();
 
     virtual Intersection hitTest(Ray radius, bool *success);
+    virtual std::string toString() const;
 
     Point3D getCenter() const;
     void setCenter(const Point3D &value);
