@@ -3,7 +3,8 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-#include <assert.h>
+#include <cassert>
+#include <cmath>
 
 void operator >> (const YAML::Node& node, Point3D& t);
 void operator >> (const YAML::Node& node, Vector3D& t);
@@ -175,14 +176,31 @@ bool Scene::renderImage(Image &img)
 {
     for(int i = 0; i < 20; i++) {
         for(int j = 0; j < 20; j++) {
-            img.setPixel(i, j, Color(1.0, 0, 0));
+            img.setPixel(i, j, Color(0, 0, 0));
         }
     }
+
+    //define the center point of the image:
     int w = img.getWidth();
     int h = img.getHeight();
+    Point3D imgCenter = eye.getPosition() + eye.getEyeVector().scalarProduct(sqrt(w * h));
+
+    //define movement vectors
+    Vector3D leftVector = eye.getUpVector().crossProduct(eye.getEyeVector());
+    Vector3D rightVector = leftVector.scalarProduct(-1);
+    Vector3D upVector = eye.getUpVector();
+    Vector3D downVector = upVector.scalarProduct(-1);
+
+    //define initial point of raycasting
+    Vector3D tmp1 = upVector.scalarProduct(h/2);
+    Vector3D tmp2 = leftVector.scalarProduct(w/2);
+    Point3D imgTopLeft = imgCenter + tmp1 + tmp2;   // por algum motivo tretoso, não funcionou sem os tmp;
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
-            Point3D pixel(x+0.5, h-1-y+0.5, 0);
+            //Point3D pixel(x+0.5 - w/2, h-1-y+0.5 - h/2, 0);
+            tmp1 = rightVector.scalarProduct(x);
+            tmp2 = downVector.scalarProduct(y);
+            Point3D pixel = imgTopLeft + tmp1 + tmp2;
             Vector3D dir = pixel - eye.getPosition();
             dir.normalize();
             Ray ray;
@@ -196,8 +214,10 @@ bool Scene::renderImage(Image &img)
                 Intersection intersec = (*it)->hitTest(ray, &success);
                 if(success) {
                     //Point3D intersecPoint = intersec.getIntersectionPoint();
-                    if(zBuffer > (intersec.getIntersectionPoint() - eye.getPosition()).norm() || zBuffer == -1)
+                    if(zBuffer > (intersec.getIntersectionPoint() - eye.getPosition()).norm() || zBuffer == -1) {
                         col = (*it)->getPointColor(intersec);
+                        zBuffer = (intersec.getIntersectionPoint() - eye.getPosition()).norm();
+                    }
                 }
             }
             col.clamp();

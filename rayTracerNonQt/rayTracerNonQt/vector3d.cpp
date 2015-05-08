@@ -56,10 +56,11 @@ double Vector3D::norm(Vector3D vec)
 
 Vector3D& Vector3D::scalarProduct(double scalar)
 {
-    this->x *= scalar;
-    this->y *= scalar;
-    this->z *= scalar;
-    return (*this);
+    Vector3D result;
+    result.setX( this->x * scalar);
+    result.setY( this->y * scalar);
+    result.setZ( this->z * scalar);
+    return result;
 }
 
 Vector3D Vector3D::scalarProduct(Vector3D vec, double scalar)
