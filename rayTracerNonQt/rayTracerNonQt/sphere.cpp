@@ -19,7 +19,10 @@ Intersection Sphere::hitTest(Ray ray, bool *success)
         *success = false;
     } else if(delta >= 0.0001) {
         *success = true;
-        d = -(ray.getDirection().dotProduct(ray.getOrigin() - this->center)) - sqrt(delta);
+        double d1, d2;
+        d1 = -(ray.getDirection().dotProduct(ray.getOrigin() - this->center)) - sqrt(delta);
+        d2 = -(ray.getDirection().dotProduct(ray.getOrigin() - this->center)) + sqrt(delta);
+        d = (d1 < d2)? d1 : d2;
     } else {
         *success = true;
         d = -(ray.getDirection().dotProduct(ray.getOrigin() - this->center));
