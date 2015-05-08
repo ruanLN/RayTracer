@@ -12,9 +12,12 @@ int main()
 
 
     Scene scene;
-    scene.readScene("scene01.yaml");
-
-    std::cout << scene.toString();
+    std::cout << "time 0" << std::endl;
+    scene.readScene("scene02.yaml");
+    std::cout << "time 1, cena lida" << std::endl;
+    scene.renderScene("scene02.png");
+    std::cout << "time 2, cena renderizada" << std::endl;
+    //std::cout << scene.toString();
     return 0;
 }
 

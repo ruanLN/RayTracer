@@ -1,7 +1,10 @@
 #include "color.h"
 #include <sstream>
 
-Color::Color()
+Color::Color() :
+    R(0),
+    G(0),
+    B(1.0)
 {
 
 }
@@ -19,6 +22,13 @@ void Color::normalize(double normalizeFactor)
     this->R = this->R / normalizeFactor;
     this->G = this->G / normalizeFactor;
     this->B = this->B / normalizeFactor;
+}
+
+void Color::clamp()
+{
+    this->R = (this->R < 0)? 0 : (this->R > 1.0)? 1.0 : this->R;
+    this->G = (this->G < 0)? 0 : (this->G > 1.0)? 1.0 : this->G;
+    this->B = (this->B < 0)? 0 : (this->B > 1.0)? 1.0 : this->B;
 }
 
 std::list<Color> Color::nomalizeColors(std::list<Color> colorList)
