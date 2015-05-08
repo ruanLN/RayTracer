@@ -58,10 +58,18 @@ void Color::clamp()
     this->B = (this->B < 0)? 0 : (this->B > 1.0)? 1.0 : this->B;
 }
 
-std::list<Color> Color::nomalizeColors(std::list<Color> colorList)
+double Color::getHighestComponent()
 {
-    std::list<Color> normalizedColorList = colorList;
-    return normalizedColorList;//mock
+    if(this->R > this->G) {
+        if(this->R > this->B) {
+            return this->R;
+        }
+        return this->B;
+    }
+    if(this->G > this->B) {
+        return this->G;
+    }
+    return this->B;
 }
 
 double Color::getB() const
