@@ -190,12 +190,14 @@ bool Scene::renderImage(Image &img)
             ray.setDirection(dir);
             std::list<DrawableObject*>::iterator it;
             Color col;// = trace(ray);
+            double zBuffer = -1;
             for(it = objects.begin(); it != objects.end(); it++) {
                 bool success;
                 Intersection intersec = (*it)->hitTest(ray, &success);
                 if(success) {
                     //Point3D intersecPoint = intersec.getIntersectionPoint();
-                    col = (*it)->getPointColor(intersec);
+                    if(zBuffer > (intersec.getIntersectionPoint() - eye.getPosition()).norm() || zBuffer == -1)
+                        col = (*it)->getPointColor(intersec);
                 }
             }
             col.clamp();
