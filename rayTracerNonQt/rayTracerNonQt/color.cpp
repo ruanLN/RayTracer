@@ -17,6 +17,33 @@ Color::Color(double red, double green, double blue) :
 
 }
 
+Color Color::operator+(Color other)
+{
+    Color result;
+    result.setR(this->R + other.getR());
+    result.setG(this->G + other.getG());
+    result.setB(this->B + other.getB());
+    return result;
+}
+
+Color Color::operator*(Color colorFactor)
+{
+    Color result;
+    result.setR(this->R * colorFactor.getR());
+    result.setG(this->G * colorFactor.getG());
+    result.setB(this->B * colorFactor.getB());
+    return result;
+}
+
+Color Color::operator*(double factor)
+{
+    Color result;
+    result.setR(this->R * factor);
+    result.setG(this->G * factor);
+    result.setB(this->B * factor);
+    return result;
+}
+
 void Color::normalize(double normalizeFactor)
 {
     this->R = this->R / normalizeFactor;

@@ -5,6 +5,7 @@
 #include "material.h"
 #include "ray.h"
 
+class Scene;
 class DrawableObject
 {
 public:
@@ -24,8 +25,13 @@ public:
         stream << obj.toString();
         return stream;
     }
+
+    Scene *getParentScene() const;
+    void setParentScene(Scene *value);
+
 private:
     Material objectMaterial;
+    Scene *parentScene;
 };
 
 #endif // DRAWABLEOBJECT_H

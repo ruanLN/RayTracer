@@ -15,9 +15,9 @@ Intersection Sphere::hitTest(Ray ray, bool *success)
     delta -= ((ray.getOrigin() - this->center).norm()) * ((ray.getOrigin() - this->center).norm());
     delta += (this->radius * this->radius);
 
-    if(delta <= -0.0001) {
+    if(delta <= 0) {
         *success = false;
-    } else if(delta >= 0.0001) {
+    } else if(delta >= 0.1) {
         *success = true;
         double d1, d2;
         d1 = -(ray.getDirection().dotProduct(ray.getOrigin() - this->center)) - sqrt(delta);
@@ -32,6 +32,7 @@ Intersection Sphere::hitTest(Ray ray, bool *success)
     if(*success) {
         intersectionPoint = ray.getOrigin() + ray.getDirection().scalarProduct(d);
         normal = intersectionPoint - this->center;
+        normal.normalize();
     }
     Intersection intersec;
     intersec.setNormalVector(normal);

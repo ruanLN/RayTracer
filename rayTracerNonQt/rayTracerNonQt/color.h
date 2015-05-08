@@ -10,6 +10,10 @@ public:
     Color();
     Color(double red, double green, double blue);
 
+    Color operator+(Color other);
+    Color operator*(Color colorFactor); //parece gamby, mas eh util para luzes
+    Color operator*(double factor);
+
     void normalize(double normalizeFactor);
     void clamp();   //cheaper
 

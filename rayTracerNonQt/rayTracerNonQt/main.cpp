@@ -15,7 +15,7 @@ int main()
     std::cout << "time 0" << std::endl;
     scene.readScene("scene02.yaml");
     std::cout << "time 1, cena lida" << std::endl;
-    scene.renderScene("scene02.png");
+    scene.renderScene("scene03.png");
     std::cout << "time 2, cena renderizada" << std::endl;
     //std::cout << scene.toString();
     return 0;

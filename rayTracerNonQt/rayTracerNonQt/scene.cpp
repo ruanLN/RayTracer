@@ -79,6 +79,7 @@ bool Scene::readScene(const std::string &inputFilename)
                  DrawableObject *obj = parseObject(*it);
                  // Only add object if it is recognized
                  if (obj) {
+                     obj->setParentScene(this);
                      this->addObject(obj);
                  } else {
                      std::cerr << "Warning: found object of unknown type, ignored." << std::endl;
@@ -109,7 +110,7 @@ bool Scene::readScene(const std::string &inputFilename)
 
 bool Scene::renderScene(const std::string &outputFilename)
 {
-    Image img(this->eye.getRenderedImageWidth(), this->eye.getRenderedImageHeight());
+    Image img(this->eye.getRenderedImageHeight(), this->eye.getRenderedImageWidth());
 
     this->renderImage(img);
 
@@ -183,7 +184,7 @@ bool Scene::renderImage(Image &img)
     //define the center point of the image:
     int w = img.getWidth();
     int h = img.getHeight();
-    Point3D imgCenter = eye.getPosition() + eye.getEyeVector().scalarProduct(sqrt(w * h));
+    Point3D imgCenter = eye.getPosition() + eye.getEyeVector().scalarProduct(sqrt(w * h)*1.5);
 
     //define movement vectors
     Vector3D leftVector = eye.getUpVector().crossProduct(eye.getEyeVector());
