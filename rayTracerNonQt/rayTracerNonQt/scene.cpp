@@ -48,7 +48,8 @@ void operator >> (const YAML::Node& node, Color &t)
     t.setB(z);
 }
 
-Scene::Scene()
+Scene::Scene() :
+    normalize(true)
 {
 
 }
@@ -226,10 +227,15 @@ bool Scene::renderImage(Image &img)
                     }
                 }
             }
+            if(!normalize){
+                col.clamp();
+            }
             img.setPixel(x, y, col);
         }
     }
-    img.normalizeImageColor(highestComponentColor);
+    if(normalize) {
+        img.normalizeImageColor(highestComponentColor);
+    }
     return true;
 }
 

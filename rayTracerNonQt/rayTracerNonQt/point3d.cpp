@@ -5,7 +5,7 @@ Point3D::Point3D()
 
 }
 
-Point3D::Point3D(int _x, int _y, int _z) :
+Point3D::Point3D(double _x, double _y, double _z) :
     x(_x),
     y(_y),
     z(_z)
@@ -46,30 +46,30 @@ Vector3D Point3D::toVector() const
     return result;
 }
 
-int Point3D::getX() const
+double Point3D::getX() const
 {
     return x;
 }
 
-void Point3D::setX(int value)
+void Point3D::setX(double value)
 {
     x = value;
 }
-int Point3D::getY() const
+double Point3D::getY() const
 {
     return y;
 }
 
-void Point3D::setY(int value)
+void Point3D::setY(double value)
 {
     y = value;
 }
-int Point3D::getZ() const
+double Point3D::getZ() const
 {
     return z;
 }
 
-void Point3D::setZ(int value)
+void Point3D::setZ(double value)
 {
     z = value;
 }

@@ -44,6 +44,8 @@ private:
     std::list<DrawableObject *> objects;
     std::list<Light *> lights;
     Camera eye;
+
+    const bool normalize;   //define method to normalize (normalization or clamping)
 };
 
 #endif // SCENE_H
