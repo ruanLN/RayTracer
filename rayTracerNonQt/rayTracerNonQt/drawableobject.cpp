@@ -1,5 +1,6 @@
 #include "drawableobject.h"
 #include "scene.h"
+#include "sphere.h"
 #include <cmath>
 
 DrawableObject::DrawableObject()
@@ -41,9 +42,16 @@ Color DrawableObject::getPointColor(Intersection intersection)
             if((*itObj) == this) {
                 continue;
             }
+            bool acradius = ((Sphere*)this)->getRadius();
             Intersection intersec = (*itObj)->hitTest(lightRay, &success);
             if(success) {
-                break;
+                double interseDistance = (intersec.getIntersectionPoint() - actualLight.getPosition()).norm();
+                double pointDistance = (lightRay.getOrigin() - actualLight.getPosition()).norm();
+                if(interseDistance < pointDistance) {
+                    break;
+                } else {
+                    success = false;
+                }
             }
         }
         if(!success){
@@ -59,9 +67,9 @@ Color DrawableObject::getPointColor(Intersection intersection)
             V.normalize();
             Vector3D R = V - intersection.getNormalVector().scalarProduct(2).scalarProduct(intersection.getNormalVector().dotProduct(V));
             double specularLightFactor = V.dotProduct(R);
-            if(specularLightFactor < 0) {
-                specularLightFactor = 0;
-            }
+//            if(specularLightFactor < 0) {
+//                specularLightFactor = 0;
+//            }
 
             specularLightFactor = pow(specularLightFactor, objectMaterial.getSpecularExponent());
             is = (is * specularLightFactor) * actualLight.getColor();

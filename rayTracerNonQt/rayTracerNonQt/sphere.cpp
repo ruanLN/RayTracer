@@ -10,7 +10,9 @@ Intersection Sphere::hitTest(Ray ray, bool *success)
 {
     double delta, d;
     ray.getDirection().normalize();
-    delta = ray.getDirection().dotProduct(ray.getOrigin() - this->center);
+    Vector3D dir = ray.getOrigin() - this->center;
+    //dir.normalize();
+    delta = ray.getDirection().dotProduct(dir);
     delta *= delta; //sqr
     delta -= ((ray.getOrigin() - this->center).norm()) * ((ray.getOrigin() - this->center).norm());
     delta += (this->radius * this->radius);
