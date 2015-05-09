@@ -17,7 +17,7 @@ public:
     void normalize(double normalizeFactor);
     void clamp();   //cheaper
 
-    static std::list<Color> nomalizeColors(std::list<Color> colorList);
+    double getHighestComponent();
 
     double getB() const;
     void setB(double value);

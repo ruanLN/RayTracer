@@ -1,26 +1,32 @@
 Eye: 
-  position: [200,200,1000]  
-  eyeVector: [0,0,1]
+  position: [-512,0,0]  
+  eyeVector: [1,0,0]
   upVector: [0,1,0]
-  imageHeight: 512
-  imageWidth: 512
+  imageHeight: 720
+  imageWidth: 1280
 
 Lights:
-- position: [-200,600,1500]
+- position: [512,0,100]
+  color: [1.0,0.0,0.0]
+- position: [512,50,100]
   color: [1.0,1.0,1.0]
-
+- position: [450,-250,-200]
+  color: [1.0,1.0,1.0]
+- position: [450,-250,-200]
+  color: [1.0,1.0,1.0]
+  
 Objects:
 - type: sphere
-  position: [90,320,100]
+  position: [512,0,0]
   radius: 50
   material: # blue
     color: [0.0,0.0,0.7]
-    ka: 0.2
+    ka: 0.0
     kd: 0.7
     ks: 0.5
-    exp: 64
+    exp: 10
 - type: sphere
-  position: [210,270,300]
+  position: [512,150,0]
   radius: 50
   material: # green
     color: [0.0,1.0,0.0]
@@ -29,8 +35,8 @@ Objects:
     ks: 0.5
     exp: 8
 - type: sphere
-  position: [290,170,150]
-  radius: 80
+  position: [512,-150,0]
+  radius: 50
   material: # red
     color: [0.8,0.0,0.4]
     ka: 0.2
@@ -38,17 +44,17 @@ Objects:
     ks: 0.8
     exp: 32
 - type: sphere
-  position: [140,220,400]
-  radius: 50
+  position: [350,0,0]
+  radius: 20
   material: # yellow
-    color: [0.4,0.8,0.0]
+    color: [0.4,0.6,0.0]
     ka: 0.2
     kd: 0.8
     ks: 0.0
     exp: 1
 - type: sphere
-  position: [110,130,200]
-  radius: 50
+  position: [1024,0,0]
+  radius: 150
   material: # orange
     color: [0.5,0.5,0.0]
     ka: 0.2

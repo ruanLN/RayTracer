@@ -11,6 +11,8 @@ public:
 
     bool writeImage(const std::string& filename);
 
+    Image& normalizeImageColor(double factor);
+
     Color getPixel(int row, int column);
     void setPixel(int row, int column, Color color);
 
@@ -22,7 +24,7 @@ public:
 
 protected:
 
-    inline int index(int x, int y) const {           //integer index
+    inline int index(int y, int x) const {           //integer index
         return y * width + x;
     }
 private:

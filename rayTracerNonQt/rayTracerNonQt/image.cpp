@@ -40,6 +40,18 @@ bool Image::writeImage(const std::string &filename)
     return true;
 }
 
+Image &Image::normalizeImageColor(double factor)
+{
+    for(int i = 0; i < height; i++) {
+        for(int j = 0; j < width; j++) {
+            Color c = getPixel(i, j);
+            c.normalize(factor);
+            setPixel(i, j, c);
+        }
+    }
+    return (*this);
+}
+
 Color Image::getPixel(int row, int column)
 {
     return pixels[index(row, column)];
