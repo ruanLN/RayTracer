@@ -1,12 +1,12 @@
-#ifndef TRINGLE_H
-#define TRINGLE_H
+#ifndef TRIANGLE_H
+#define TRIANGLE_H
 
 #include "drawableobject.h"
 
-class Tringle : public DrawableObject
+class Triangle : public DrawableObject
 {
 public:
-    Tringle();
+    Triangle();
 
     virtual Intersection hitTest(Ray ray, bool *success);
 
@@ -23,4 +23,4 @@ private:
     Point3D v1, v2, v3;
 };
 
-#endif // TRINGLE_H
+#endif // TRIANGLE_H

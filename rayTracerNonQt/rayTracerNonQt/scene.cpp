@@ -1,5 +1,6 @@
 #include "scene.h"
 #include "sphere.h"
+#include "triangle.h"
 #include <sstream>
 #include <fstream>
 #include <iostream>
@@ -246,6 +247,16 @@ DrawableObject *Scene::parseObject(const YAML::Node &node)
         node["radius"] >> radius;
         ((Sphere*)obj)->setCenter(position);
         ((Sphere*)obj)->setRadius(radius);
+    }
+    if(objectType == "triangle") {
+        obj = new Triangle();
+        Point3D vertex1, vertex2, vertex3;
+        node["vertex1"] >> vertex1;
+        node["vertex2"] >> vertex2;
+        node["vertex3"] >> vertex3;
+        ((Triangle*)obj)->setV1(vertex1);
+        ((Triangle*)obj)->setV2(vertex2);
+        ((Triangle*)obj)->setV3(vertex3);
     }
     if(obj) {
         Material objMaterial = parseMaterial(node["material"]);

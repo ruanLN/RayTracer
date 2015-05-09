@@ -16,6 +16,16 @@ Lights:
   color: [1.0,1.0,1.0]
   
 Objects:
+- type: triangle
+  vertex1: [100,0,0]
+  vertex2: [300,0,0]
+  vertex3: [200,400,0]
+  material: # red
+    color: [0.0,0.0,0.7]
+    ka: 0.0
+    kd: 0.7
+    ks: 0.5
+    exp: 10
 - type: sphere
   position: [512,0,0]
   radius: 50
