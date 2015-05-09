@@ -42,7 +42,6 @@ Color DrawableObject::getPointColor(Intersection intersection)
             if((*itObj) == this) {
                 continue;
             }
-            bool acradius = ((Sphere*)this)->getRadius();
             Intersection intersec = (*itObj)->hitTest(lightRay, &success);
             if(success) {
                 double interseDistance = (intersec.getIntersectionPoint() - actualLight.getPosition()).norm();

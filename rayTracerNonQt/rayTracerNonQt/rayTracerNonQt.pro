@@ -12,7 +12,6 @@ SOURCES += main.cpp \
     camera.cpp \
     drawableobject.cpp \
     intersection.cpp \
-    tringle.cpp \
     sphere.cpp \
     ray.cpp \
     yaml/aliascontent.cpp \
@@ -39,7 +38,8 @@ SOURCES += main.cpp \
     yaml/stream.cpp \
     scene.cpp \
     png/lodepng.cpp \
-    image.cpp
+    image.cpp \
+    triangle.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -55,7 +55,6 @@ HEADERS += \
     drawableobject.h \
     intersection.h \
     ray.h \
-    tringle.h \
     sphere.h \
     yaml/aliascontent.h \
     yaml/content.h \
@@ -96,7 +95,8 @@ HEADERS += \
     yaml/token.h \
     yaml/yaml.h \
     png/lodepng.h \
-    image.h
+    image.h \
+    triangle.h
 
 DISTFILES +=
 
