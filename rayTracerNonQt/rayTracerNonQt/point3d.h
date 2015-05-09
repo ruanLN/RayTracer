@@ -9,7 +9,7 @@ class Point3D
 {
 public:
     Point3D();
-    Point3D(int _x, int _y, int _z);
+    Point3D(double _x, double _y, double _z);
 
     Vector3D operator-(Point3D other);
     Point3D operator+(Vector3D other);
@@ -17,14 +17,14 @@ public:
 
     Vector3D toVector() const;
 
-    int getX() const;
-    void setX(int value);
+    double getX() const;
+    void setX(double value);
 
-    int getY() const;
-    void setY(int value);
+    double getY() const;
+    void setY(double value);
 
-    int getZ() const;
-    void setZ(int value);
+    double getZ() const;
+    void setZ(double value);
 
     //debug purposes
     std::string toString() const;
@@ -34,7 +34,7 @@ public:
         return stream;
     }
 private:
-    int x, y, z;
+    double x, y, z;
 };
 
 #endif // POINT3D_H
