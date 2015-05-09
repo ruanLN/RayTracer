@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="testeRay" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/testeRay" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/testeRay" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="Makefile" />
+		<Unit filename="README" />
+		<Unit filename="a.png" />
+		<Unit filename="hit.h" />
+		<Unit filename="image.cpp" />
+		<Unit filename="image.h" />
+		<Unit filename="image.o" />
+		<Unit filename="light.cpp" />
+		<Unit filename="light.h" />
+		<Unit filename="light.o" />
+		<Unit filename="lodepng.cpp" />
+		<Unit filename="lodepng.h" />
+		<Unit filename="lodepng.o" />
+		<Unit filename="main.cpp" />
+		<Unit filename="main.o" />
+		<Unit filename="make.dep" />
+		<Unit filename="material.cpp" />
+		<Unit filename="material.h" />
+		<Unit filename="material.o" />
+		<Unit filename="object.h" />
+		<Unit filename="ray.exe" />
+		<Unit filename="ray.h" />
+		<Unit filename="raytracer.cpp" />
+		<Unit filename="raytracer.h" />
+		<Unit filename="raytracer.o" />
+		<Unit filename="scene.cpp" />
+		<Unit filename="scene.h" />
+		<Unit filename="scene.o" />
+		<Unit filename="scene01.yaml" />
+		<Unit filename="sphere.cpp" />
+		<Unit filename="sphere.h" />
+		<Unit filename="sphere.o" />
+		<Unit filename="testeRay.cbp" />
+		<Unit filename="triple.cpp" />
+		<Unit filename="triple.h" />
+		<Unit filename="triple.o" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
