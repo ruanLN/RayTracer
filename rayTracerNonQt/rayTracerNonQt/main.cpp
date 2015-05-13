@@ -13,7 +13,7 @@ int main()
 
     Scene scene;
     std::cout << "time 0" << std::endl;
-    scene.readScene("scene_shadows.yaml");
+    scene.readScene("scene02.yaml");
     std::cout << "time 1, cena lida" << std::endl;
     scene.renderScene("scene_shadows.png");
     std::cout << "time 2, cena renderizada" << std::endl;
