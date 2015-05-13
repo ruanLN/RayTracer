@@ -24,9 +24,8 @@ Color DrawableObject::getPointColor(Intersection intersection)
     std::list<DrawableObject*> objects = parentScene->getObjects();
     std::list<DrawableObject*>::iterator itObj;
 
-    Color ia = objectMaterial.getMaterialColor() * objectMaterial.getAmbientComponent();
-//    ia.normalize(1/objectMaterial.getAmbientComponent());
     Color i;
+    Color ia = objectMaterial.getMaterialColor() * objectMaterial.getAmbientComponent();
     i = ia;
     for(it = lights.begin(); it != lights.end(); it++) {
         Light actualLight = *(*it);
@@ -42,7 +41,6 @@ Color DrawableObject::getPointColor(Intersection intersection)
             if((*itObj) == this) {
                 continue;
             }
-            bool acradius = ((Sphere*)this)->getRadius();
             Intersection intersec = (*itObj)->hitTest(lightRay, &success);
             if(success) {
                 double interseDistance = (intersec.getIntersectionPoint() - actualLight.getPosition()).norm();
@@ -56,7 +54,7 @@ Color DrawableObject::getPointColor(Intersection intersection)
         }
         if(!success){
             Color id = objectMaterial.getMaterialColor() * objectMaterial.getDiffuseComponent();
-            double diffuseLightFactor = (intersection.getNormalVector().dotProduct(lightVector));
+            double diffuseLightFactor = (lightVector.dotProduct(intersection.getNormalVector()));
             if(diffuseLightFactor < 0) {
                 diffuseLightFactor = 0;
             }
@@ -65,7 +63,12 @@ Color DrawableObject::getPointColor(Intersection intersection)
             Color is = objectMaterial.getMaterialColor() * objectMaterial.getSpecularComponent();
             Vector3D V = parentScene->getEye().getPosition() - intersection.getIntersectionPoint();
             V.normalize();
-            Vector3D R = V - intersection.getNormalVector().scalarProduct(2).scalarProduct(intersection.getNormalVector().dotProduct(V));
+            Vector3D R;// = V - intersection.getNormalVector().scalarProduct(2).scalarProduct(intersection.getNormalVector().dotProduct(V));
+            R = intersection.getNormalVector().scalarProduct(2);
+            double NL = intersection.getNormalVector().dotProduct(lightVector);
+            R = R.scalarProduct(NL);
+            R = R - lightVector;
+            R.normalize();
             double specularLightFactor = V.dotProduct(R);
 //            if(specularLightFactor < 0) {
 //                specularLightFactor = 0;
@@ -73,7 +76,7 @@ Color DrawableObject::getPointColor(Intersection intersection)
 
             specularLightFactor = pow(specularLightFactor, objectMaterial.getSpecularExponent());
             is = (is * specularLightFactor) * actualLight.getColor();
-            i = i + id * 1 + is * 1;
+            i = i + id + is;
         }
     }
     return i;
