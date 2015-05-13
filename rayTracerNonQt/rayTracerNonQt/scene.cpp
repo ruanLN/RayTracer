@@ -49,7 +49,8 @@ void operator >> (const YAML::Node& node, Color &t)
 }
 
 Scene::Scene() :
-    normalize(true)
+    normalize(true),
+    normalColoring(false)
 {
 
 }
@@ -114,6 +115,14 @@ bool Scene::renderScene(const std::string &outputFilename)
 {
     Image img(this->eye.getRenderedImageHeight(), this->eye.getRenderedImageWidth());
 
+    Ray ray;
+    ray.setOrigin(Point3D(200,7,3));
+    Vector3D dir = (*(lights.begin()))->getPosition() - ray.getOrigin();
+    dir.normalize();
+    ray.setDirection(dir);
+    bool intersected;
+    Intersection inter = (*(objects.begin()))->hitTest(ray, &intersected);
+    std::cout << intersected << std::endl;
     this->renderImage(img);
 
     img.writeImage(outputFilename);
@@ -186,7 +195,8 @@ bool Scene::renderImage(Image &img)
     //define the center point of the image:
     int w = img.getWidth();
     int h = img.getHeight();
-    Point3D imgCenter = eye.getPosition() + eye.getEyeVector().scalarProduct(sqrt(w * h)*1.5);
+    Point3D imgCenter = eye.getPosition() + eye.getEyeVector().scalarProduct(sqrt(w * h)/
+                                                                             1.5);
 
     //define movement vectors
     Vector3D leftVector = eye.getUpVector().crossProduct(eye.getEyeVector());
@@ -195,9 +205,9 @@ bool Scene::renderImage(Image &img)
     Vector3D downVector = upVector.scalarProduct(-1);
 
     //define initial point of raycasting
-    Vector3D tmp1 = upVector.scalarProduct(h/2);
-    Vector3D tmp2 = leftVector.scalarProduct(w/2);
-    Point3D imgTopLeft = imgCenter + tmp1 + tmp2;   // por algum motivo tretoso, não funcionou sem os tmp;
+    Vector3D tmp1 = upVector.scalarProduct(h/2.0);
+    Vector3D tmp2 = leftVector.scalarProduct(w/2.0);
+    Point3D imgTopLeft = imgCenter + tmp1 + tmp2;   // por algum motivo tretoso, nao funcionou sem os tmp;
     double highestComponentColor = 1;
     for (int x = 0; x < h; x++) {
         for (int y = 0; y < w; y++) {
@@ -238,6 +248,16 @@ bool Scene::renderImage(Image &img)
     }
     return true;
 }
+bool Scene::isNormalColoring() const
+{
+    return normalColoring;
+}
+
+void Scene::setNormalColoring(bool value)
+{
+    normalColoring = value;
+}
+
 
 DrawableObject *Scene::parseObject(const YAML::Node &node)
 {
@@ -260,9 +280,9 @@ DrawableObject *Scene::parseObject(const YAML::Node &node)
         node["vertex1"] >> vertex1;
         node["vertex2"] >> vertex2;
         node["vertex3"] >> vertex3;
-        ((Triangle*)obj)->setV1(vertex1);
-        ((Triangle*)obj)->setV2(vertex2);
-        ((Triangle*)obj)->setV3(vertex3);
+        ((Triangle*)obj)->setV0(vertex1);
+        ((Triangle*)obj)->setV1(vertex2);
+        ((Triangle*)obj)->setV2(vertex3);
     }
     if(obj) {
         Material objMaterial = parseMaterial(node["material"]);
@@ -297,7 +317,7 @@ void Scene::addObject(DrawableObject *obj)
 
 void Scene::addLight(Light *light)
 {
-    if(light) {
+    if(light) {  //if non-null, for safety
         this->lights.push_back(light);
     }
 }

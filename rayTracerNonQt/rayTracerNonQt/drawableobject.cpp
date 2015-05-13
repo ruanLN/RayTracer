@@ -25,7 +25,6 @@ Color DrawableObject::getPointColor(Intersection intersection)
     std::list<DrawableObject*>::iterator itObj;
 
     Color ia = objectMaterial.getMaterialColor() * objectMaterial.getAmbientComponent();
-//    ia.normalize(1/objectMaterial.getAmbientComponent());
     Color i;
     i = ia;
     for(it = lights.begin(); it != lights.end(); it++) {
@@ -35,10 +34,10 @@ Color DrawableObject::getPointColor(Intersection intersection)
 
         Ray lightRay;
         lightRay.setDirection(lightVector);
-        lightRay.setOrigin(intersection.getIntersectionPoint() + lightVector);
+        lightRay.setOrigin(intersection.getIntersectionPoint());
 
         bool success = false;
-        for(itObj = objects.begin(); itObj != objects.end(); itObj++) {
+        for(itObj = objects.begin(); itObj != objects.end(); itObj++) {   //for shadows
             if((*itObj) == this) {
                 continue;
             }
@@ -75,6 +74,12 @@ Color DrawableObject::getPointColor(Intersection intersection)
             i = i + id * 1 + is * 1;
         }
     }
+    if(parentScene->isNormalColoring()) {
+        i.setR((intersection.getNormalVector().getX() + 1)/2);
+        i.setG((intersection.getNormalVector().getY() + 1)/2);
+        i.setB((intersection.getNormalVector().getZ() + 1)/2);
+    }
+
     return i;
 }
 

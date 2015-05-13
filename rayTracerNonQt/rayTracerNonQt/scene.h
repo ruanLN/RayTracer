@@ -36,8 +36,12 @@ public:
 
     Material parseMaterial(const YAML::Node &materialNode);
 
+    bool isNormalColoring() const;
+    void setNormalColoring(bool value);
+
     //debug purposes
     std::string toString() const;
+
 private:
     bool renderImage(Image& img);
 
@@ -45,6 +49,7 @@ private:
     std::list<Light *> lights;
     Camera eye;
 
+    bool normalColoring;
     const bool normalize;   //define method to normalize (normalization or clamping)
 };
 
