@@ -2,6 +2,7 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
+#CCFLAG += -O2
 
 SOURCES += main.cpp \
     color.cpp \
@@ -12,7 +13,7 @@ SOURCES += main.cpp \
     camera.cpp \
     drawableobject.cpp \
     intersection.cpp \
-    tringle.cpp \
+    triangle.cpp \
     sphere.cpp \
     ray.cpp \
     yaml/aliascontent.cpp \
@@ -55,7 +56,7 @@ HEADERS += \
     drawableobject.h \
     intersection.h \
     ray.h \
-    tringle.h \
+    triangle.h \
     sphere.h \
     yaml/aliascontent.h \
     yaml/content.h \
