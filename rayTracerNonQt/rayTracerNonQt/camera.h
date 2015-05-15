@@ -26,6 +26,9 @@ public:
     int getRenderedImageWidth() const;
     void setRenderedImageWidth(int value);
 
+    int getSuperSamplingFactor() const;
+    void setSuperSamplingFactor(int value);
+
     //debug purposes
     std::string toString() const;
     friend std::ostream& operator<<(std::ostream& stream, const Camera& cam)
@@ -33,6 +36,7 @@ public:
         stream << cam.toString();
         return stream;
     }
+
 private:
     Point3D position;
     Vector3D upVector;
@@ -40,6 +44,8 @@ private:
 
     int renderedImageHeight;
     int renderedImageWidth;
+
+    int superSamplingFactor;
 };
 
 #endif // CAMERA_H

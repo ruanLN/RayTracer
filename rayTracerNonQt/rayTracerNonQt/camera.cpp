@@ -1,6 +1,7 @@
 #include "camera.h"
 
-Camera::Camera()
+Camera::Camera() :
+    superSamplingFactor(1)
 {
 
 }
@@ -57,6 +58,16 @@ std::string Camera::toString() const
     std::string stringCam = ss.str();
     return stringCam;
 }
+int Camera::getSuperSamplingFactor() const
+{
+    return superSamplingFactor;
+}
+
+void Camera::setSuperSamplingFactor(int value)
+{
+    superSamplingFactor = value;
+}
+
 
 
 

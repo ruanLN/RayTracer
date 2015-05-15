@@ -2,6 +2,7 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
+#CCFLAG += -O2
 
 SOURCES += main.cpp \
     color.cpp \
@@ -12,6 +13,7 @@ SOURCES += main.cpp \
     camera.cpp \
     drawableobject.cpp \
     intersection.cpp \
+    triangle.cpp \
     sphere.cpp \
     ray.cpp \
     yaml/aliascontent.cpp \
@@ -38,8 +40,7 @@ SOURCES += main.cpp \
     yaml/stream.cpp \
     scene.cpp \
     png/lodepng.cpp \
-    image.cpp \
-    triangle.cpp
+    image.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -55,6 +56,7 @@ HEADERS += \
     drawableobject.h \
     intersection.h \
     ray.h \
+    triangle.h \
     sphere.h \
     yaml/aliascontent.h \
     yaml/content.h \
@@ -95,8 +97,7 @@ HEADERS += \
     yaml/token.h \
     yaml/yaml.h \
     png/lodepng.h \
-    image.h \
-    triangle.h
+    image.h
 
 DISTFILES +=
 

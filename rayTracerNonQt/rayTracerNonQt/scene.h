@@ -49,8 +49,9 @@ private:
     std::list<Light *> lights;
     Camera eye;
 
-    bool normalColoring;
     const bool normalize;   //define method to normalize (normalization or clamping)
+    bool normalColoring;
+
 };
 
 #endif // SCENE_H
