@@ -10,8 +10,14 @@ class Material
 public:
     Material();
 
-    Color getMaterialColor() const;
-    void setMaterialColor(const Color &value);
+    Color getDiffuseMaterialColor() const;
+    void setDiffuseMaterialColor(const Color &value);
+
+    Color getSpecularMaterialColor() const;
+    void setSpecularMaterialColor(const Color &value);
+
+    Color getAmbientMaterialColor() const;
+    void setAmbientMaterialColor(const Color &value);
 
     double getAmbientComponent() const;
     void setAmbientComponent(double value);
@@ -33,7 +39,7 @@ public:
         return stream;
     }
 private:
-    Color materialColor;
+    Color diffuseMaterialColor, specularMaterialColor, ambientMaterialColor;
     double ambientComponent, diffuseComponent, specularComponent;
     double specularExponent;
 };

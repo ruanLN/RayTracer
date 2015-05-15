@@ -25,7 +25,7 @@ Color DrawableObject::getPointColor(Intersection intersection)
     std::list<DrawableObject*>::iterator itObj;
 
     Color i;
-    Color ia = objectMaterial.getMaterialColor() * objectMaterial.getAmbientComponent();
+    Color ia = objectMaterial.getDiffuseMaterialColor() * objectMaterial.getAmbientComponent();
     i = ia;
     for(it = lights.begin(); it != lights.end(); it++) {
         Light actualLight = *(*it);
@@ -53,14 +53,14 @@ Color DrawableObject::getPointColor(Intersection intersection)
             }
         }
         if(!success){
-            Color id = objectMaterial.getMaterialColor() * objectMaterial.getDiffuseComponent();
+            Color id = objectMaterial.getDiffuseMaterialColor() * objectMaterial.getDiffuseComponent();
             double diffuseLightFactor = (lightVector.dotProduct(intersection.getNormalVector()));
             if(diffuseLightFactor < 0) {
                 diffuseLightFactor = 0;
             }
             id = (id * diffuseLightFactor) * actualLight.getColor();
 
-            Color is = objectMaterial.getMaterialColor() * objectMaterial.getSpecularComponent();
+            Color is = objectMaterial.getSpecularMaterialColor() * objectMaterial.getSpecularComponent();
             Vector3D V = parentScene->getEye().getPosition() - intersection.getIntersectionPoint();
             V.normalize();
             Vector3D R;// = V - intersection.getNormalVector().scalarProduct(2).scalarProduct(intersection.getNormalVector().dotProduct(V));

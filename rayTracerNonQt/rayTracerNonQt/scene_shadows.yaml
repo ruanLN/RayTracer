@@ -6,15 +6,26 @@ Eye:
   imageWidth: 1280
 
 Lights:
-- position: [325,25,0]
+- position: [325,125,0]
   color: [1.0,1.0,1.0]
   
 Objects:
 - type: sphere
+  position: [300,100,100]
+  radius: 30
+  material: # white
+    diffuseColor: [1.0,1.0,1.0]
+    ka: 0.0
+    kd: 0.7
+    ks: 0.5
+    exp: 10
+- type: sphere
   position: [512,0,0]
   radius: 50
   material: # blue
-    color: [0.0,0.0,1.0]
+    diffuseColor: [0.0,0.0,1.0]
+    specularColor: [0.0,0.0,1.0]
+    ambientColor: [0.0,0.0,1.0]
     ka: 0.0
     kd: 0.7
     ks: 0.5
@@ -23,7 +34,9 @@ Objects:
   position: [512,150,0]
   radius: 50
   material: # green
-    color: [0.0,1.0,0.0]
+    diffuseColor: [0.0,1.0,0.0]
+    specularColor: [0.0,1.0,0.0]
+    ambientColor: [0.0,1.0,0.0]
     ka: 0.2
     kd: 0.3
     ks: 0.5
@@ -32,7 +45,9 @@ Objects:
   position: [512,-150,0]
   radius: 50
   material: # red
-    color: [0.8,0.0,0.4]
+    diffuseColor: [0.8,0.0,0.4]
+    specularColor: [0.8,0.0,0.4]
+    ambientColor: [0.8,0.0,0.4]
     ka: 0.2
     kd: 0.7
     ks: 0.8
@@ -41,7 +56,9 @@ Objects:
   position: [350,0,0]
   radius: 20
   material: # yellow
-    color: [0.4,0.6,0.0]
+    diffuseColor: [0.4,0.6,0.0]
+    specularColor: [0.4,0.6,0.0]
+    ambientColor: [0.4,0.6,0.0]
     ka: 0.2
     kd: 0.8
     ks: 0.0
@@ -50,7 +67,9 @@ Objects:
   position: [1024,0,0]
   radius: 150
   material: # orange
-    color: [1.0,1.0,1.0]
+    diffuseColor: [1.0,1.0,1.0]
+    specularColor: [1.0,1.0,1.0]
+    ambientColor: [1.0,1.0,1.0]
     ka: 0.2
     kd: 0.8
     ks: 0.5

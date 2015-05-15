@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cassert>
 #include <cmath>
+#include <exception>
 
 void operator >> (const YAML::Node& node, Point3D& t);
 void operator >> (const YAML::Node& node, Vector3D& t);
@@ -141,14 +142,31 @@ Camera Scene::parseEye(const YAML::Node &node)
 Material Scene::parseMaterial(const YAML::Node& materialNode)
 {
     Material objMaterial;
-    Color color;
-    materialNode["color"] >> color;
+    Color diffuseColor, specularColor, ambientColor;
+
+    materialNode["diffuseColor"] >> diffuseColor;
+    objMaterial.setDiffuseMaterialColor(diffuseColor);
+    try {
+        materialNode["specularColor"] >> specularColor;
+        objMaterial.setSpecularMaterialColor(specularColor);
+    }
+    catch (YAML::TypedKeyNotFound<std::string> e) {
+        materialNode["diffuseColor"] >> specularColor;
+        objMaterial.setSpecularMaterialColor(specularColor);
+    }
+    try {
+        materialNode["ambientColor"] >> ambientColor;
+        objMaterial.setAmbientMaterialColor(ambientColor);
+    }
+    catch (YAML::TypedKeyNotFound<std::string> e) {
+        materialNode["diffuseColor"] >> ambientColor;
+        objMaterial.setAmbientMaterialColor(ambientColor);
+    }
     double ka, kd, ks, exp;
     materialNode["ka"] >> ka;
     materialNode["kd"] >> kd;
     materialNode["ks"] >> ks;
     materialNode["exp"] >> exp;
-    objMaterial.setMaterialColor(color);
     objMaterial.setAmbientComponent(ka);
     objMaterial.setDiffuseComponent(kd);
     objMaterial.setSpecularComponent(ks);
