@@ -1,0 +1,47 @@
+Eye: 
+  position: [-512,0,0]  
+  eyeVector: [1,0,0]
+  upVector: [0,1,0]
+  imageHeight: 720
+  imageWidth: 1280
+  z-near: 600
+  superSamplingLevel: 2
+
+RefractionLevel: 1
+ReflectionLevel: 1
+Shadows: false
+NormalColoring: true
+
+Lights:
+- position: [125,125,0]
+  color: [1.0,1.0,1.0]
+  linearAttenuation: 0.00001
+  quadraticAttenuation: 0.00002
+- position: [200,350,0]
+  color: [1.0,1.0,1.0]
+  linearAttenuation: 0.0001
+  quadraticAttenuation: 0.00006
+  
+Objects:
+- type: sphere
+  position: [300,100,100]
+  radius: 30
+  material: # white
+    diffuseColor: [1.0,1.0,1.0]
+    ka: 0.0
+    kd: 0.7
+    ks: 0.5
+    exp: 10
+- type: sphere
+  position: [512,0,0]
+  radius: 50
+  material: # blue
+    diffuseColor: [0.0,0.0,1.0]
+    specularColor: [0.0,0.0,1.0]
+    ambientColor: [0.0,0.0,1.0]
+    ka: 0.0
+    kd: 0.7
+    ks: 0.5
+    exp: 10
+    kgr: 1.0
+    kgt: 1.0
