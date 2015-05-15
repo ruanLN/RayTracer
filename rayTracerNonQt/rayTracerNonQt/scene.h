@@ -50,6 +50,7 @@ public:
 
     //debug purposes
     std::string toString() const;
+
 private:
     bool renderImage(Image& img);
 

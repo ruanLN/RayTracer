@@ -6,7 +6,6 @@
 #include <iostream>
 #include <cassert>
 #include <cmath>
-#include <exception>
 
 void operator >> (const YAML::Node& node, Point3D& t);
 void operator >> (const YAML::Node& node, Vector3D& t);
@@ -54,7 +53,7 @@ Scene::Scene() :
     reflectionLevel(0),
     shadows(true),
     normalColoring(false),
-    normalize(true)
+    normalize(false)
 {
 
 }
