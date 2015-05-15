@@ -298,6 +298,22 @@ Light *Scene::parseLight(const YAML::Node &node)
     node["color"] >> color;
     light->setPosition(position);
     light->setColor(color);
+    double linearAttenuation, quadraticAttenuation;
+    try {
+        node["linearAttenuation"] >> linearAttenuation;
+        light->setLinearAtt(linearAttenuation);
+    }
+    catch (YAML::TypedKeyNotFound<std::string> e) {
+        light->setLinearAtt(0);
+    }
+    try {
+        node["quadraticAttenuation"] >> quadraticAttenuation;
+        light->setQuadraticAtt(quadraticAttenuation);
+    }
+    catch (YAML::TypedKeyNotFound<std::string> e) {
+        light->setQuadraticAtt(0);
+    }
+
     return light;
 }
 
@@ -319,6 +335,7 @@ void Scene::addLight(Light *light)
         this->lights.push_back(light);
     }
 }
+
 std::list<DrawableObject *> Scene::getObjects() const
 {
     return objects;
@@ -328,6 +345,7 @@ void Scene::setObjects(const std::list<DrawableObject *> &value)
 {
     objects = value;
 }
+
 std::list<Light *> Scene::getLights() const
 {
     return lights;
@@ -337,6 +355,7 @@ void Scene::setLights(const std::list<Light *> &value)
 {
     lights = value;
 }
+
 Camera Scene::getEye() const
 {
     return eye;

@@ -6,8 +6,10 @@ Eye:
   imageWidth: 1280
 
 Lights:
-- position: [325,125,0]
+- position: [125,125,0]
   color: [1.0,1.0,1.0]
+  linearAttenuation: 0.00001
+  quadraticAttenuation: 0.00002
   
 Objects:
 - type: sphere

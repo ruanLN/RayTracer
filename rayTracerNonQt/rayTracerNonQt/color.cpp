@@ -44,6 +44,15 @@ Color Color::operator*(double factor)
     return result;
 }
 
+Color Color::operator/(double factor)
+{
+    Color result;
+    result.setR(this->R / factor);
+    result.setG(this->G / factor);
+    result.setB(this->B / factor);
+    return result;
+}
+
 void Color::normalize(double normalizeFactor)
 {
     this->R = this->R / normalizeFactor;
