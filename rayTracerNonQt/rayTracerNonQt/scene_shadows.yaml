@@ -4,6 +4,13 @@ Eye:
   upVector: [0,1,0]
   imageHeight: 720
   imageWidth: 1280
+  z-near: 600
+  superSamplingLevel: 2
+
+RefractionLevel: 1
+ReflectionLevel: 1
+Shadows: false
+NormalColoring: true
 
 Lights:
 - position: [125,125,0]
@@ -32,6 +39,8 @@ Objects:
     kd: 0.7
     ks: 0.5
     exp: 10
+    kgr: 1.0
+    kgt: 1.0
 - type: sphere
   position: [512,150,0]
   radius: 50
@@ -43,6 +52,8 @@ Objects:
     kd: 0.3
     ks: 0.5
     exp: 8
+    kgr: 1.0
+    kgt: 1.0
 - type: sphere
   position: [512,-150,0]
   radius: 50
@@ -54,6 +65,8 @@ Objects:
     kd: 0.7
     ks: 0.8
     exp: 32
+    kgr: 1.0
+    kgt: 1.0
 - type: sphere
   position: [350,0,0]
   radius: 20
@@ -65,6 +78,8 @@ Objects:
     kd: 0.8
     ks: 0.0
     exp: 1
+    kgr: 1.0
+    kgt: 1.0
 - type: sphere
   position: [1024,0,0]
   radius: 150
@@ -76,3 +91,5 @@ Objects:
     kd: 0.8
     ks: 0.5
     exp: 32
+    kgr: 1.0
+    kgt: 1.0

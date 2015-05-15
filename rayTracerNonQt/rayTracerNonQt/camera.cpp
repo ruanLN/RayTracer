@@ -1,6 +1,8 @@
 #include "camera.h"
 
-Camera::Camera()
+Camera::Camera() :
+    zNear(1),
+    superSamplingFactor(1)
 {
 
 }
@@ -53,9 +55,29 @@ void Camera::setRenderedImageWidth(int value)
 std::string Camera::toString() const
 {
     std::ostringstream ss;
-    ss << "Pos: " << this->position.toString() << "; up: " << this->upVector.toString() << "; eye: " << this->eyeVector.toString();
+    ss << "Pos: " << this->position.toString() << ", up: " << this->upVector.toString() << ", eye: " << this->eyeVector.toString() << ", z-near: " << this->zNear << ", supersampling level: " << this->superSamplingFactor;
     std::string stringCam = ss.str();
     return stringCam;
+}
+
+int Camera::getZNear() const
+{
+    return zNear;
+}
+
+void Camera::setZNear(int value)
+{
+    zNear = value;
+}
+
+int Camera::getSuperSamplingFactor() const
+{
+    return superSamplingFactor;
+}
+
+void Camera::setSuperSamplingFactor(int value)
+{
+    superSamplingFactor = value;
 }
 
 

@@ -1,7 +1,9 @@
 #include "material.h"
 #include <sstream>
 
-Material::Material()
+Material::Material() :
+    reflectionComponent(1),
+    transmissionComponent(1)
 {
 
 }
@@ -75,10 +77,30 @@ void Material::setSpecularExponent(double value)
     specularExponent = value;
 }
 
+double Material::getReflectionComponent() const
+{
+    return reflectionComponent;
+}
+
+void Material::setReflectionComponent(double value)
+{
+    reflectionComponent = value;
+}
+
+double Material::getTransmissionComponent() const
+{
+    return transmissionComponent;
+}
+
+void Material::setTransmissionComponent(double value)
+{
+    transmissionComponent = value;
+}
+
 std::string Material::toString() const
 {
     std::ostringstream stringStream;
-    stringStream << "Diffuse color: " << this->diffuseMaterialColor << ", specular color: " << this->specularMaterialColor << ", ambient color: " << this->ambientMaterialColor << ", ka: " << this->ambientComponent << ", kd: " << this->diffuseComponent << ", ks: " << this->specularComponent << ", exp: " << this->specularExponent;
+    stringStream << "Diffuse color: " << this->diffuseMaterialColor << ", specular color: " << this->specularMaterialColor << ", ambient color: " << this->ambientMaterialColor << ", ka: " << this->ambientComponent << ", kd: " << this->diffuseComponent << ", ks: " << this->specularComponent << ", exp: " << this->specularExponent << ", kgr: " << this->reflectionComponent << ", kgt: " << this->transmissionComponent;
     std::string stringPoint = stringStream.str();
     return stringPoint;
 }

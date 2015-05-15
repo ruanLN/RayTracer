@@ -26,6 +26,12 @@ public:
     int getRenderedImageWidth() const;
     void setRenderedImageWidth(int value);
 
+    int getZNear() const;
+    void setZNear(int value);
+
+    int getSuperSamplingFactor() const;
+    void setSuperSamplingFactor(int value);
+
     //debug purposes
     std::string toString() const;
     friend std::ostream& operator<<(std::ostream& stream, const Camera& cam)
@@ -40,6 +46,9 @@ private:
 
     int renderedImageHeight;
     int renderedImageWidth;
+
+    int zNear;
+    int superSamplingFactor;
 };
 
 #endif // CAMERA_H

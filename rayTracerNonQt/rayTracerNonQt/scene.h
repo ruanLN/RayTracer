@@ -34,6 +34,18 @@ public:
     Camera getEye() const;
     void setEye(const Camera &value);
 
+    int getRefractionLevel() const;
+    void setRefractionLevel(int value);
+
+    int getReflectionLevel() const;
+    void setReflectionLevel(int value);
+
+    bool areShadows() const;
+    void setShadows(bool value);
+
+    bool isNormalColoring() const;
+    void setNormalColoring(bool value);
+
     Material parseMaterial(const YAML::Node &materialNode);
 
     //debug purposes
@@ -44,6 +56,9 @@ private:
     std::list<DrawableObject *> objects;
     std::list<Light *> lights;
     Camera eye;
+
+    int refractionLevel, reflectionLevel;
+    bool shadows, normalColoring;
 
     const bool normalize;   //define method to normalize (normalization or clamping)
 };

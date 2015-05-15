@@ -50,6 +50,10 @@ void operator >> (const YAML::Node& node, Color &t)
 }
 
 Scene::Scene() :
+    refractionLevel(0),
+    reflectionLevel(0),
+    shadows(true),
+    normalColoring(false),
     normalize(true)
 {
 
@@ -71,6 +75,30 @@ bool Scene::readScene(const std::string &inputFilename)
 
              // Read scene configuration options
              this->setEye(parseEye(doc["Eye"]));
+             try {
+                 this->setRefractionLevel(doc["RefractionLevel"]);
+             }
+             catch (YAML::TypedKeyNotFound<std::string> e) {
+                 std::cout << e.what() << std::endl;
+             }
+             try {
+                 this->setReflectionLevel(doc["ReflectionLevel"]);
+             }
+             catch (YAML::TypedKeyNotFound<std::string> e) {
+                 std::cout << e.what() << std::endl;
+             }
+             try {
+                 this->setShadows(doc["Shadows"]);
+             }
+             catch (YAML::TypedKeyNotFound<std::string> e) {
+                 std::cout << e.what() << std::endl;
+             }
+             try {
+                 this->setNormalColoring(doc["NormalColoring"]);
+             }
+             catch (YAML::TypedKeyNotFound<std::string> e) {
+                 std::cout << e.what() << std::endl;
+             }
 
              // Read and parse the scene objects
              const YAML::Node& sceneObjects = doc["Objects"];
@@ -108,6 +136,7 @@ bool Scene::readScene(const std::string &inputFilename)
      }
 
      std::cout << "YAML parsing results: " << this->getNumObjects() << " objects read." << std::endl;
+
      return true;
 }
 
@@ -131,6 +160,21 @@ Camera Scene::parseEye(const YAML::Node &node)
     int h, w;
     node["imageWidth"] >> w;
     node["imageHeight"] >> h;
+    int zNear;
+    try {
+        node["z-near"] >> zNear;
+        cam.setZNear(zNear);
+    } catch (YAML::TypedKeyNotFound<std::string> e) {
+        std::cout << "Z-near not found; using 512." << std::endl;
+    }
+    int ssf;
+    try {
+        node["superSamplingLevel"] >> ssf;
+        cam.setSuperSamplingFactor(ssf);
+    } catch (YAML::TypedKeyNotFound<std::string> e) {
+        std::cout << "Supersampling level not found; using 1." << std::endl;
+    }
+
     cam.setPosition(position);
     cam.setEyeVector(eye);
     cam.setUpVector(up);
@@ -153,6 +197,7 @@ Material Scene::parseMaterial(const YAML::Node& materialNode)
     catch (YAML::TypedKeyNotFound<std::string> e) {
         materialNode["diffuseColor"] >> specularColor;
         objMaterial.setSpecularMaterialColor(specularColor);
+        std::cout << "Object specular color not found; using diffuse." << std::endl;
     }
     try {
         materialNode["ambientColor"] >> ambientColor;
@@ -161,6 +206,7 @@ Material Scene::parseMaterial(const YAML::Node& materialNode)
     catch (YAML::TypedKeyNotFound<std::string> e) {
         materialNode["diffuseColor"] >> ambientColor;
         objMaterial.setAmbientMaterialColor(ambientColor);
+        std::cout << "Object ambient color not found; using diffuse." << std::endl;
     }
     double ka, kd, ks, exp;
     materialNode["ka"] >> ka;
@@ -171,6 +217,23 @@ Material Scene::parseMaterial(const YAML::Node& materialNode)
     objMaterial.setDiffuseComponent(kd);
     objMaterial.setSpecularComponent(ks);
     objMaterial.setSpecularExponent(exp);
+
+    double kgr, kgt;
+    try {
+        materialNode["kgr"] >> kgr;
+        objMaterial.setReflectionComponent(kgr);
+    }
+    catch (YAML::TypedKeyNotFound<std::string> e) {
+        std::cout << "Object reflection component not found; using 1." << std::endl;
+    }
+    try {
+        materialNode["kgt"] >> kgt;
+        objMaterial.setTransmissionComponent(kgt);
+    }
+    catch (YAML::TypedKeyNotFound<std::string> e) {
+        std::cout << "Object transmission component not found; using 1." << std::endl;
+    }
+
     return objMaterial;
 }
 
@@ -179,6 +242,10 @@ std::string Scene::toString() const
     std::ostringstream ss;
     ss << "Scene: " << std::endl;
     ss << "\t" << "Camera: " << this->eye.toString() << std::endl;
+    ss << "\t" << "Refraction level: " << this->refractionLevel << std::endl;
+    ss << "\t" << "Reflection level: " << this->reflectionLevel << std::endl;
+    ss << "\t" << "Shadows: " << std::boolalpha << this->shadows << std::endl;
+    ss << "\t" << "Normal coloring: " << std::boolalpha << this->normalColoring << std::endl;
     ss << "\t" << "Lights: " << std::endl;
     std::list<Light*>::const_iterator it;
     for(it = lights.begin(); it != lights.end(); it++) {
@@ -304,14 +371,14 @@ Light *Scene::parseLight(const YAML::Node &node)
         light->setLinearAtt(linearAttenuation);
     }
     catch (YAML::TypedKeyNotFound<std::string> e) {
-        light->setLinearAtt(0);
+        std::cout << "Light linear attenuation factor not found; using 0." << std::endl;
     }
     try {
         node["quadraticAttenuation"] >> quadraticAttenuation;
         light->setQuadraticAtt(quadraticAttenuation);
     }
     catch (YAML::TypedKeyNotFound<std::string> e) {
-        light->setQuadraticAtt(0);
+        std::cout << "Light quadratic attenuation factor not found; using 0." << std::endl;
     }
 
     return light;
@@ -364,6 +431,46 @@ Camera Scene::getEye() const
 void Scene::setEye(const Camera &value)
 {
     eye = value;
+}
+
+int Scene::getRefractionLevel() const
+{
+    return refractionLevel;
+}
+
+void Scene::setRefractionLevel(int value)
+{
+    refractionLevel = value;
+}
+
+int Scene::getReflectionLevel() const
+{
+    return reflectionLevel;
+}
+
+void Scene::setReflectionLevel(int value)
+{
+    reflectionLevel = value;
+}
+
+bool Scene::areShadows() const
+{
+    return shadows;
+}
+
+void Scene::setShadows(bool value)
+{
+    shadows = value;
+}
+
+bool Scene::isNormalColoring() const
+{
+    return normalColoring;
+}
+
+void Scene::setNormalColoring(bool value)
+{
+    normalColoring = value;
 }
 
 
