@@ -13,6 +13,7 @@ public:
     Color operator+(Color other);
     Color operator*(Color colorFactor); //parece gamby, mas eh util para luzes
     Color operator*(double factor);
+    Color operator/(double factor);
 
     void normalize(double normalizeFactor);
     void clamp();   //cheaper

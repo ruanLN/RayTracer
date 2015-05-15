@@ -17,6 +17,12 @@ public:
     Color getColor() const;
     void setColor(const Color &value);
 
+    double getLinearAtt() const;
+    void setLinearAtt(double value);
+
+    double getQuadraticAtt() const;
+    void setQuadraticAtt(double value);
+
     //debug purposes
     std::string toString() const;
     friend std::ostream& operator<<(std::ostream& stream, const Light& vec)
@@ -28,6 +34,8 @@ private:
     Point3D position;
     //Vector3D direction; //non-directional light
     Color color;
+    double linearAtt;
+    double quadraticAtt;
 };
 
 #endif // LIGHT_H
