@@ -93,7 +93,17 @@ bool Scene::readScene(const std::string &inputFilename)
                  std::cout << e.what() << std::endl;
              }
              try {
-                 this->setNormalColoring(doc["NormalColoring"]);
+                 std::string shadingType;
+                 doc["shadingType"] >> shadingType;
+                 if(shadingType == "normal") {
+                     this->setNormalColoring(true);
+                 } else if(shadingType == "z") {
+
+                 } else if(shadingType == "phong"){
+
+                 } else {
+                     std::cout << "shading type não reconhecido, usando phong" << std::endl;
+                 }
              }
              catch (YAML::TypedKeyNotFound<std::string> e) {
                  std::cout << e.what() << std::endl;
@@ -270,7 +280,7 @@ bool Scene::renderImage(Image &img)
     //define the center point of the image:
     int w = img.getWidth();
     int h = img.getHeight();
-    Point3D imgCenter = eye.getPosition() + eye.getEyeVector().scalarProduct(sqrt(w * h)*1.5);
+    Point3D imgCenter = eye.getPosition() + eye.getEyeVector().scalarProduct(eye.getZNear());
 
     //define movement vectors
     Vector3D leftVector = eye.getUpVector().crossProduct(eye.getEyeVector());

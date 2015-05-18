@@ -17,7 +17,7 @@ void DrawableObject::setObjectMaterial(const Material &value)
     objectMaterial = value;
 }
 
-Color DrawableObject::getPointColor(Intersection intersection)
+Color DrawableObject::getPointColor(Intersection intersection, int depth)
 {
     std::list<Light*> lights = parentScene->getLights();
     std::list<Light*>::iterator it;
@@ -50,11 +50,14 @@ Color DrawableObject::getPointColor(Intersection intersection)
                     break;
                 } else {
                     success = false;
-                    attenuationFactor += pointDistance*actualLight.getLinearAtt() + pow(pointDistance,2)*actualLight.getQuadraticAtt();
+                    //attenuationFactor += pointDistance*actualLight.getLinearAtt() + pow(pointDistance,2)*actualLight.getQuadraticAtt();
                 }
             }
         }
         if(!success){
+            double pointDistance = (lightRay.getOrigin() - actualLight.getPosition()).norm();
+            attenuationFactor += pointDistance*actualLight.getLinearAtt() + pow(pointDistance,2)*actualLight.getQuadraticAtt();
+            attenuationFactor = 1.0/attenuationFactor;
             Color id = objectMaterial.getDiffuseMaterialColor() * objectMaterial.getDiffuseComponent();
             double diffuseLightFactor = (lightVector.dotProduct(intersection.getNormalVector()));
             if(diffuseLightFactor < 0) {
@@ -78,8 +81,7 @@ Color DrawableObject::getPointColor(Intersection intersection)
 
             specularLightFactor = pow(specularLightFactor, objectMaterial.getSpecularExponent());
             is = (is * specularLightFactor) * actualLight.getColor();
-            i = i + id + is;
-            i = i/attenuationFactor;
+            i = i + id*attenuationFactor + is*attenuationFactor;
         }
     }
     return i;

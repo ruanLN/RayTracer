@@ -9,8 +9,9 @@ Eye:
 
 RefractionLevel: 1
 ReflectionLevel: 1
-Shadows: false
-NormalColoring: true
+Shadows: true
+#phong, normal, z
+shadingType: phong
 
 Lights:
 - position: [125,125,0]

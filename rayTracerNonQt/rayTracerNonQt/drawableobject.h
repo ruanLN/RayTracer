@@ -16,7 +16,7 @@ public:
     Material getObjectMaterial() const;
     void setObjectMaterial(const Material &value);
 
-    Color getPointColor(Intersection intersection);
+    Color getPointColor(Intersection intersection, int depth = 0);
 
     //debug purposes
     virtual std::string toString() const;
