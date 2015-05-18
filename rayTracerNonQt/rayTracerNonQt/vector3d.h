@@ -25,6 +25,7 @@ public:
     Vector3D crossProduct(Vector3D other);
     static Vector3D crossProduct(Vector3D vet1, Vector3D vet2);
 
+    Vector3D getNormalForm();
     void normalize();
     static Vector3D normalize(Vector3D vec);
 

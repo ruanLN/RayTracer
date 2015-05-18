@@ -94,6 +94,15 @@ Vector3D Vector3D::crossProduct(Vector3D vet1, Vector3D vet2)
     return result;
 }
 
+Vector3D Vector3D::getNormalForm()
+{
+    Vector3D result;
+    result.setX(this->x / this->norm());
+    result.setY(this->y / this->norm());
+    result.setZ(this->z / this->norm());
+    return result;
+}
+
 void Vector3D::normalize()
 {
     double norm = this->norm();

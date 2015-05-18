@@ -1,4 +1,5 @@
 #include "triangle.h"
+#include <iostream>
 #include <cmath>
 
 Triangle::Triangle()
@@ -8,7 +9,7 @@ Triangle::Triangle()
 
 Intersection Triangle::hitTest(Ray ray, bool *success)
 {
-    double kEpsilon = 0.0001;
+    const double kEpsilon = 0.0001;
     Intersection intersect;
     // compute plane's normal
     Vector3D v0v1 = v1 - v0;
@@ -22,17 +23,19 @@ Intersection Triangle::hitTest(Ray ray, bool *success)
 
     // check if ray and plane are parallel ?
     Vector3D dir = ray.getDirection();
-    double NdotRayDirection = N.dotProduct(dir);
+    dir.normalize();
+    double NdotRayDirection = N.dotProduct(ray.getDirection());
     if (fabs(NdotRayDirection) < kEpsilon){
         // almost 0
         (*success) = false;
         return intersect; // they are parallel so they don't intersect !
     }
+//até aqui beleza
 
     // compute d parameter using equation 2
     Vector3D v0vec = v0.toVector();
     double d = N.dotProduct(v0vec);
-
+    //std::cout << "distance to origin: " << d << std::endl;
     // compute t (equation 3)
     Point3D orig = ray.getOrigin();
     double t;
@@ -47,6 +50,11 @@ Intersection Triangle::hitTest(Ray ray, bool *success)
     // compute the intersection point using equation 1
     Point3D P = orig + ray.getDirection().scalarProduct(t);
 
+    //if(ray.getOrigin().getX() > 0.1) {
+    //    std::cout << "raio origem:" << ray.getOrigin().toString() << std::endl;
+    //    std::cout << "raio direction:" << ray.getDirection().toString() << std::endl;
+    //    std::cout << "passa pelo plano em :" << P.toString() << std::endl << std::endl;
+    //}
     // Step 2: inside-outside test
     Vector3D C; // vector perpendicular to triangle's plane
 
@@ -86,6 +94,8 @@ Intersection Triangle::hitTest(Ray ray, bool *success)
     N.normalize();
     intersect.setNormalVector(N);
     (*success) = true;
+    std::cout << "raio origem:" << ray.getOrigin().toString() << std::endl;
+    std::cout << "intersect point: " << intersect.getIntersectionPoint() << std::endl << std::endl;
     return intersect; // this ray hits the triangle
 }
 
