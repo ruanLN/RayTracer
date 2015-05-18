@@ -26,7 +26,7 @@ Color DrawableObject::getPointColor(Intersection intersection)
 
     Color i;
     double attenuationFactor = 1;
-    Color ia = objectMaterial.getDiffuseMaterialColor() * objectMaterial.getAmbientComponent();
+    Color ia = objectMaterial.getAmbientMaterialColor() * objectMaterial.getAmbientComponent();
     i = ia;
     for(it = lights.begin(); it != lights.end(); it++) {
         Light actualLight = *(*it);
