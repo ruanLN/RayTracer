@@ -93,7 +93,17 @@ bool Scene::readScene(const std::string &inputFilename)
                  std::cout << e.what() << std::endl;
              }
              try {
-                 this->setNormalColoring(doc["NormalColoring"]);
+                 std::string shadingType;
+                 doc["shadingType"] >> shadingType;
+                 if(shadingType == "normal") {
+                     this->setNormalColoring(true);
+                 } else if(shadingType == "z") {
+
+                 } else if(shadingType == "phong"){
+
+                 } else {
+                     std::cout << "shading type não reconhecido, usando phong" << std::endl;
+                 }
              }
              catch (YAML::TypedKeyNotFound<std::string> e) {
                  std::cout << e.what() << std::endl;
@@ -270,7 +280,7 @@ bool Scene::renderImage(Image &img)
     //define the center point of the image:
     int w = img.getWidth();
     int h = img.getHeight();
-    Point3D imgCenter = eye.getPosition() + eye.getEyeVector().scalarProduct(sqrt(w * h)*1.5);
+    Point3D imgCenter = eye.getPosition() + eye.getEyeVector().scalarProduct(eye.getZNear());
 
     //define movement vectors
     Vector3D leftVector = eye.getUpVector().crossProduct(eye.getEyeVector());
@@ -283,34 +293,67 @@ bool Scene::renderImage(Image &img)
     Vector3D tmp2 = leftVector.scalarProduct(w/2);
     Point3D imgTopLeft = imgCenter + tmp1 + tmp2;   // por algum motivo tretoso, não funcionou sem os tmp;
     double highestComponentColor = 1;
+    double step = 1.0 / (eye.getSuperSamplingFactor() + 1);
     for (int x = 0; x < h; x++) {
         for (int y = 0; y < w; y++) {
-            //Point3D pixel(x+0.5 - w/2, h-1-y+0.5 - h/2, 0);
-            tmp1 = downVector.scalarProduct(x);
-            tmp2 = rightVector.scalarProduct(y);
-            Point3D pixel = imgTopLeft + tmp1 + tmp2;
-            Vector3D dir = pixel - eye.getPosition();
-            dir.normalize();
-            Ray ray;
-            ray.setOrigin(eye.getPosition());
-            ray.setDirection(dir);
-            std::list<DrawableObject*>::iterator it;
-            Color col;// = trace(ray);
-            double zBuffer = -1;
-            for(it = objects.begin(); it != objects.end(); it++) {
-                bool success;
-                Intersection intersec = (*it)->hitTest(ray, &success);
-                if(success) {
-                    //Point3D intersecPoint = intersec.getIntersectionPoint();
-                    if(zBuffer > (intersec.getIntersectionPoint() - eye.getPosition()).norm() || zBuffer == -1) {
-                        col = (*it)->getPointColor(intersec);
-                        if(col.getHighestComponent() > highestComponentColor) {
-                            highestComponentColor = col.getHighestComponent();
+            Color col;
+            for(int z = 1; z <= eye.getSuperSamplingFactor(); z++) {
+                for(int w = 1; w <= eye.getSuperSamplingFactor(); w++) {
+                    tmp1 = downVector.scalarProduct(x + step*z);
+                    tmp2 = rightVector.scalarProduct(y + step*w);
+                    Point3D pixel = imgTopLeft + tmp1 + tmp2;
+                    Vector3D dir = pixel - eye.getPosition();
+                    dir.normalize();
+                    Ray ray;
+                    ray.setOrigin(eye.getPosition());
+                    ray.setDirection(dir);
+                    std::list<DrawableObject*>::iterator it;
+                    Color colLocal;// = trace(ray);
+                    double zBuffer = -1;
+                    for(it = objects.begin(); it != objects.end(); it++) {
+                        bool success;
+                        Intersection intersec = (*it)->hitTest(ray, &success);
+                        if(success) {
+                            //Point3D intersecPoint = intersec.getIntersectionPoint();
+                            if(zBuffer > (intersec.getIntersectionPoint() - eye.getPosition()).norm() || zBuffer == -1) {
+                                colLocal = (*it)->getPointColor(intersec);
+                                if(colLocal.getHighestComponent() > highestComponentColor) {
+                                    highestComponentColor = colLocal.getHighestComponent();
+                                }
+                                zBuffer = (intersec.getIntersectionPoint() - eye.getPosition()).norm();
+                            }
                         }
-                        zBuffer = (intersec.getIntersectionPoint() - eye.getPosition()).norm();
                     }
+                    col = col + colLocal;
                 }
             }
+//            //Point3D pixel(x+0.5 - w/2, h-1-y+0.5 - h/2, 0);
+//            tmp1 = downVector.scalarProduct(x);
+//            tmp2 = rightVector.scalarProduct(y);
+//            Point3D pixel = imgTopLeft + tmp1 + tmp2;
+//            Vector3D dir = pixel - eye.getPosition();
+//            dir.normalize();
+//            Ray ray;
+//            ray.setOrigin(eye.getPosition());
+//            ray.setDirection(dir);
+//            std::list<DrawableObject*>::iterator it;
+//            Color col;// = trace(ray);
+//            double zBuffer = -1;
+//            for(it = objects.begin(); it != objects.end(); it++) {
+//                bool success;
+//                Intersection intersec = (*it)->hitTest(ray, &success);
+//                if(success) {
+//                    //Point3D intersecPoint = intersec.getIntersectionPoint();
+//                    if(zBuffer > (intersec.getIntersectionPoint() - eye.getPosition()).norm() || zBuffer == -1) {
+//                        col = (*it)->getPointColor(intersec);
+//                        if(col.getHighestComponent() > highestComponentColor) {
+//                            highestComponentColor = col.getHighestComponent();
+//                        }
+//                        zBuffer = (intersec.getIntersectionPoint() - eye.getPosition()).norm();
+//                    }
+//                }
+//            }
+            col = col * (1.0/(eye.getSuperSamplingFactor()*eye.getSuperSamplingFactor()));
             if(!normalize){
                 col.clamp();
             }
