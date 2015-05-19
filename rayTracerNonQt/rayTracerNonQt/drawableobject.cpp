@@ -80,9 +80,60 @@ Color DrawableObject::getPointColor(Intersection intersection, int depth)
 //            }
 
             specularLightFactor = pow(specularLightFactor, objectMaterial.getSpecularExponent());
-            is = (is * specularLightFactor) * actualLight.getColor();
-            i = i + id*attenuationFactor + is*attenuationFactor;
+            //double naturalColorReduction = 1 - (combineReflectedLight ? objectMaterial.getReflectionComponent() : 0) - (combineTransmitedLight ? objectMaterial.getTransmissionComponent() : 0);
+            is = is * specularLightFactor * actualLight.getColor();
+            i = (i + id*attenuationFactor + is*attenuationFactor);
+            //i = i*(naturalColorReduction) + (combineReflectedLight?reflectedColor*objectMaterial.getReflectionComponent() : Color()) + (combineTransmitedLight? refratedColor*objectMaterial.getTransmissionComponent(): Color());
         }
+        //i = i + reflectedColor;
+    }
+    Color reflectedColor, refratedColor;
+    bool combineReflectedLight = false;
+    bool combineTransmitedLight = false;
+    if(depth < parentScene->getReflectionLevel()) {
+        Vector3D V = parentScene->getEye().getPosition() - intersection.getIntersectionPoint();
+        V.normalize();
+        Vector3D reflectedVec;// = V - intersection.getNormalVector().scalarProduct(2).scalarProduct(intersection.getNormalVector().dotProduct(V));
+        reflectedVec = intersection.getNormalVector().scalarProduct(2);
+        double NL = intersection.getNormalVector().dotProduct(V);
+        reflectedVec = reflectedVec.scalarProduct(NL);
+        reflectedVec = reflectedVec - V;
+        reflectedVec.normalize();
+        int zBuffer = -1;
+        double highestComponentColor = 1;
+        Intersection reflectedIntersection;
+        bool reflectionIntersectedSomething;
+        Ray reflectedRay;
+        reflectedRay.setDirection(reflectedVec);
+        reflectedRay.setOrigin(intersection.getIntersectionPoint());
+
+        for(itObj = objects.begin(); itObj != objects.end(); itObj++) {
+            if((*itObj) == this) {
+                continue;
+            }
+            reflectedIntersection = (*itObj)->hitTest(reflectedRay, &reflectionIntersectedSomething);
+            if(reflectionIntersectedSomething) {
+                //Point3D intersecPoint = intersec.getIntersectionPoint();
+                if(zBuffer > (reflectedIntersection.getIntersectionPoint() - reflectedRay.getOrigin()).norm() || zBuffer == -1) {
+                    if(reflectedIntersection.getT() < 0) {
+                        continue;
+                    }
+                    combineReflectedLight = true;
+                    reflectedColor = (*itObj)->getPointColor(reflectedIntersection, depth+1);
+                    if(reflectedColor.getHighestComponent() > highestComponentColor) {
+                        highestComponentColor = reflectedColor.getHighestComponent();
+                    }
+                    zBuffer = (reflectedIntersection.getIntersectionPoint() - reflectedRay.getOrigin()).norm();
+                }
+            }
+        }
+        //reflectedColor.clamp();
+    }
+    if(depth < parentScene->getRefractionLevel()) {
+
+    }
+    if(combineReflectedLight) {
+        i = i + reflectedColor * this->objectMaterial.getReflectionComponent() * this->objectMaterial.getSpecularComponent();
     }
     return i;
 }

@@ -13,9 +13,9 @@ int main()
 
     Scene scene;
     std::cout << "time 0" << std::endl;
-    scene.readScene("scene_shadows.yaml");
+    scene.readScene("scene01-zoom-ss-reflect-lights-shadows.yaml");
     std::cout << "time 1, cena lida" << std::endl;
-    scene.renderScene("scene_shadows.png");
+    scene.renderScene("scene01-zoom-ss-reflect-lights-shadows.png");
     std::cout << "time 2, cena renderizada" << std::endl;
     //std::cout << scene.toString();
     return 0;

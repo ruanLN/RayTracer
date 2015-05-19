@@ -23,6 +23,16 @@ void Intersection::setIntersectionPoint(const Point3D &value)
 {
     intersectionPoint = value;
 }
+double Intersection::getT() const
+{
+    return t;
+}
+
+void Intersection::setT(double value)
+{
+    t = value;
+}
+
 
 
 

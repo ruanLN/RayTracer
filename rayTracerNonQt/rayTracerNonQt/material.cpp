@@ -3,7 +3,7 @@
 
 Material::Material() :
     reflectionComponent(1),
-    transmissionComponent(1)
+    transmissionComponent(0)
 {
 
 }
