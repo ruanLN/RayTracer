@@ -3,7 +3,8 @@
 #include "sphere.h"
 #include <cmath>
 
-DrawableObject::DrawableObject()
+DrawableObject::DrawableObject() :
+    hasTexture(false)
 {
 
 }
@@ -138,6 +139,7 @@ Color DrawableObject::getPointColor(Intersection intersection, int depth)
     if(combineReflectedLight) {
         i = i + reflectedColor * this->objectMaterial.getSpecularComponent();
     }
+
     return i;
 }
 

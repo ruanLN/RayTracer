@@ -41,8 +41,17 @@ bool Image::writeImage(const std::string &filename)
 }
 
 bool Image::readImage(const std::string &filename) {
+    if(pixels) {
+        delete[] pixels;
+        pixels = NULL;
+    }
     std::vector<unsigned char> image;
-    LodePNG::loadFile(image, filename);
+    unsigned int wr = (unsigned int)0;
+    unsigned int hr = (unsigned int)0;
+    unsigned error = LodePNG::decode(image, wr, hr, filename);
+    this->height = hr;
+    this->width = wr;
+    pixels = new Color[hr*wr];
     Color *currentPixel = pixels;
     std::vector<unsigned char>::iterator imageIterator = image.begin();
     while (imageIterator != image.end()) {
@@ -55,7 +64,7 @@ bool Image::readImage(const std::string &filename) {
         imageIterator++;
         currentPixel++;
     }
-
+    return true;
 }
 
 Image &Image::normalizeImageColor(double factor)

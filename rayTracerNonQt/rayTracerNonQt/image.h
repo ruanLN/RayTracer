@@ -31,7 +31,9 @@ protected:
     }
 
     inline int index(float y, float x) const {
-        return (int) (y * width * height + x * width);
+        int ind = y * width * height + x * width;
+        ind = ind >= width*height? width*height-1 : (ind < 0? 0 : ind);
+        return ind;
     }
 private:
     int height, width;
