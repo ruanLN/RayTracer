@@ -32,6 +32,16 @@ void Intersection::setT(double value)
 {
     t = value;
 }
+Ray Intersection::getCauseRay() const
+{
+    return causeRay;
+}
+
+void Intersection::setCauseRay(Ray value)
+{
+    causeRay = value;
+}
+
 
 
 

@@ -40,6 +40,7 @@ Intersection Sphere::hitTest(Ray ray, bool *success)
     intersec.setNormalVector(normal);
     intersec.setIntersectionPoint(intersectionPoint);
     intersec.setT(d);
+    intersec.setCauseRay(ray);
     return intersec;
 }
 Point3D Sphere::getCenter() const

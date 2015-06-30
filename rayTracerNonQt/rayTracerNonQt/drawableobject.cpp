@@ -91,7 +91,8 @@ Color DrawableObject::getPointColor(Intersection intersection, int depth)
     bool combineReflectedLight = false;
     bool combineTransmitedLight = false;
     if(depth < parentScene->getReflectionLevel()) {
-        Vector3D V = parentScene->getEye().getPosition() - intersection.getIntersectionPoint();
+        //Vector3D V = parentScene->getEye().getPosition() - intersection.getIntersectionPoint();
+        Vector3D V = intersection.getCauseRay().getOrigin() - intersection.getIntersectionPoint();
         V.normalize();
         Vector3D reflectedVec;// = V - intersection.getNormalVector().scalarProduct(2).scalarProduct(intersection.getNormalVector().dotProduct(V));
         reflectedVec = intersection.getNormalVector().scalarProduct(2);
@@ -127,13 +128,14 @@ Color DrawableObject::getPointColor(Intersection intersection, int depth)
                 }
             }
         }
-        //reflectedColor.clamp();
+        reflectedColor.clamp();
+        //reflectedColor.normalize(highestComponentColor);
     }
     if(depth < parentScene->getRefractionLevel()) {
 
     }
     if(combineReflectedLight) {
-        i = i + reflectedColor * this->objectMaterial.getReflectionComponent() * this->objectMaterial.getSpecularComponent();
+        i = i + reflectedColor * this->objectMaterial.getSpecularComponent();
     }
     return i;
 }

@@ -69,6 +69,7 @@ Intersection Triangle::hitTest(Ray ray, bool *success)
     intersec.setNormalVector(triangleNormal);
     intersec.setIntersectionPoint(intersectionPoint);
     intersec.setT(t);
+    intersec.setCauseRay(ray);
     return intersec;
 }
 

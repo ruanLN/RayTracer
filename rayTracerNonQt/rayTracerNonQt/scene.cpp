@@ -204,9 +204,12 @@ Material Scene::parseMaterial(const YAML::Node& materialNode)
         objMaterial.setSpecularMaterialColor(specularColor);
     }
     catch (YAML::TypedKeyNotFound<std::string> e) {
-        materialNode["diffuseColor"] >> specularColor;
+        //materialNode["diffuseColor"] >> specularColor;
+        specularColor.setR(1);
+        specularColor.setG(1);
+        specularColor.setB(1);
         objMaterial.setSpecularMaterialColor(specularColor);
-        std::cout << "Object specular color not found; using diffuse." << std::endl;
+        std::cout << "Object specular color not found; using white." << std::endl;
     }
     try {
         materialNode["ambientColor"] >> ambientColor;
@@ -271,6 +274,8 @@ std::string Scene::toString() const
 
 bool Scene::renderImage(Image &img)
 {
+    int w = img.getWidth();
+    int h = img.getHeight();
     for(int i = 0; i < 20; i++) {
         for(int j = 0; j < 20; j++) {
             img.setPixel(i, j, Color(0, 0, 0));
@@ -278,8 +283,6 @@ bool Scene::renderImage(Image &img)
     }
 
     //define the center point of the image:
-    int w = img.getWidth();
-    int h = img.getHeight();
     Point3D imgCenter = eye.getPosition() + eye.getEyeVector().scalarProduct(eye.getZNear());
 
     //define movement vectors
@@ -327,32 +330,6 @@ bool Scene::renderImage(Image &img)
                     col = col + colLocal;
                 }
             }
-//            //Point3D pixel(x+0.5 - w/2, h-1-y+0.5 - h/2, 0);
-//            tmp1 = downVector.scalarProduct(x);
-//            tmp2 = rightVector.scalarProduct(y);
-//            Point3D pixel = imgTopLeft + tmp1 + tmp2;
-//            Vector3D dir = pixel - eye.getPosition();
-//            dir.normalize();
-//            Ray ray;
-//            ray.setOrigin(eye.getPosition());
-//            ray.setDirection(dir);
-//            std::list<DrawableObject*>::iterator it;
-//            Color col;// = trace(ray);
-//            double zBuffer = -1;
-//            for(it = objects.begin(); it != objects.end(); it++) {
-//                bool success;
-//                Intersection intersec = (*it)->hitTest(ray, &success);
-//                if(success) {
-//                    //Point3D intersecPoint = intersec.getIntersectionPoint();
-//                    if(zBuffer > (intersec.getIntersectionPoint() - eye.getPosition()).norm() || zBuffer == -1) {
-//                        col = (*it)->getPointColor(intersec);
-//                        if(col.getHighestComponent() > highestComponentColor) {
-//                            highestComponentColor = col.getHighestComponent();
-//                        }
-//                        zBuffer = (intersec.getIntersectionPoint() - eye.getPosition()).norm();
-//                    }
-//                }
-//            }
             col = col * (1.0/(eye.getSuperSamplingFactor()*eye.getSuperSamplingFactor()));
             if(!normalize){
                 col.clamp();
