@@ -40,6 +40,24 @@ bool Image::writeImage(const std::string &filename)
     return true;
 }
 
+bool Image::readImage(const std::string &filename) {
+    std::vector<unsigned char> image;
+    LodePNG::loadFile(image, filename);
+    Color *currentPixel = pixels;
+    std::vector<unsigned char>::iterator imageIterator = image.begin();
+    while (imageIterator != image.end()) {
+        currentPixel->setR((*imageIterator) / 255.0);
+        imageIterator++;
+        currentPixel->setG((*imageIterator) / 255.0);
+        imageIterator++;
+        currentPixel->setB((*imageIterator) / 255.0);
+        imageIterator++;
+        imageIterator++;
+        currentPixel++;
+    }
+
+}
+
 Image &Image::normalizeImageColor(double factor)
 {
     for(int i = 0; i < height; i++) {
@@ -53,6 +71,11 @@ Image &Image::normalizeImageColor(double factor)
 }
 
 Color Image::getPixel(int row, int column)
+{
+    return pixels[index(row, column)];
+}
+
+Color Image::getPixel(float row, float column)
 {
     return pixels[index(row, column)];
 }

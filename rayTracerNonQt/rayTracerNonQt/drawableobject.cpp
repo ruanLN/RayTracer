@@ -58,7 +58,8 @@ Color DrawableObject::getPointColor(Intersection intersection, int depth)
             double pointDistance = (lightRay.getOrigin() - actualLight.getPosition()).norm();
             attenuationFactor += pointDistance*actualLight.getLinearAtt() + pow(pointDistance,2)*actualLight.getQuadraticAtt();
             attenuationFactor = 1.0/attenuationFactor;
-            Color id = objectMaterial.getDiffuseMaterialColor() * objectMaterial.getDiffuseComponent();
+            Color id = hasTexture? mapTexture(intersection.getIntersectionPoint()) : objectMaterial.getDiffuseMaterialColor();
+            id = id * objectMaterial.getDiffuseComponent();
             double diffuseLightFactor = (lightVector.dotProduct(intersection.getNormalVector()));
             if(diffuseLightFactor < 0) {
                 diffuseLightFactor = 0;
@@ -157,4 +158,15 @@ void DrawableObject::setParentScene(Scene *value)
 {
     parentScene = value;
 }
+Image DrawableObject::getTexture() const
+{
+    return texture;
+}
+
+void DrawableObject::setTexture(const Image &value)
+{
+    hasTexture = true;
+    texture = value;
+}
+
 

@@ -4,6 +4,7 @@
 #include "intersection.h"
 #include "material.h"
 #include "ray.h"
+#include "image.h"
 
 class Scene;
 class DrawableObject
@@ -29,8 +30,14 @@ public:
     Scene *getParentScene() const;
     void setParentScene(Scene *value);
 
-private:
+    Image getTexture() const;
+    void setTexture(const Image &value);
+    virtual Color mapTexture(Point3D point) = 0;
+
+protected:
     Material objectMaterial;
+    Image texture;
+    bool hasTexture;
     Scene *parentScene;
 };
 

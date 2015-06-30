@@ -10,6 +10,7 @@ public:
 
     virtual Intersection hitTest(Ray radius, bool *success);
     virtual std::string toString() const;
+    virtual Color mapTexture(Point3D point);
 
     Point3D getCenter() const;
     void setCenter(const Point3D &value);
@@ -20,6 +21,7 @@ public:
 private:
     Point3D center;
     double radius;
+
 };
 
 #endif // SPHERE_H

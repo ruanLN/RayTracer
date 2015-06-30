@@ -73,6 +73,11 @@ Intersection Triangle::hitTest(Ray ray, bool *success)
     return intersec;
 }
 
+Color Triangle::mapTexture(Point3D point)
+{
+    return this->objectMaterial.getDiffuseMaterialColor();
+}
+
 Point3D Triangle::getV1() const
 {
     return v1;

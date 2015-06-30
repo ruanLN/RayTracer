@@ -9,6 +9,7 @@ public:
     Triangle();
 
     virtual Intersection hitTest(Ray ray, bool *success);
+    virtual Color mapTexture(Point3D point);
 
     Point3D getV1() const;
     void setV1(const Point3D &value);

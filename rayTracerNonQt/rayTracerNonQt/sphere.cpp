@@ -71,3 +71,14 @@ std::string Sphere::toString() const
     std::string stringPoint = stringStream.str();
     return stringPoint;
 }
+
+
+Color Sphere::mapTexture(Point3D point)
+{
+    float u, v;
+    Vector3D d = point - this->center;
+    d.normalize();
+    u = 0.5 + atan2(d.getZ(), d.getX()) / (2 * M_PI);
+    v = 0.5 - asin(d.getY()) / M_PI;
+    return texture.getPixel(u, v);
+}

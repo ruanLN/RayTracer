@@ -371,6 +371,13 @@ DrawableObject *Scene::parseObject(const YAML::Node &node)
     if(obj) {
         Material objMaterial = parseMaterial(node["material"]);
         obj->setObjectMaterial(objMaterial);
+
+        try {
+            Image objTexture(node["textureH"],  node["textureW"]);
+            objTexture.readImage(node["texture"]);
+        } catch (YAML::TypedKeyNotFound<std::string> e) {
+            std::cout << "No texture, using material" << std::endl;
+        }
     }
     return obj;
 }
