@@ -41,7 +41,8 @@ SOURCES += main.cpp \
     scene.cpp \
     png/lodepng.cpp \
     image.cpp \
-    objloader.cpp
+    objloader.cpp \
+    model.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -99,7 +100,8 @@ HEADERS += \
     yaml/yaml.h \
     png/lodepng.h \
     image.h \
-    objloader.h
+    objloader.h \
+    model.h
 
 DISTFILES +=
 

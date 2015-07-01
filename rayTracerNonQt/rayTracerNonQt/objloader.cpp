@@ -18,14 +18,14 @@
 
 bool loadOBJ(
 	const char * path,
-    std::vector<Vector3D> & out_vertices,
+    std::vector<Point3D> & out_vertices,
     std::vector<std::pair<float, float> > & out_uvs,
     std::vector<Vector3D> & out_normals
 ){
 	printf("Loading OBJ file %s...\n", path);
 
 	std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
-    std::vector<Vector3D> temp_vertices;
+    std::vector<Point3D> temp_vertices;
     std::vector<std::pair<float, float> > temp_uvs;
     std::vector<Vector3D> temp_normals;
 
@@ -50,7 +50,7 @@ bool loadOBJ(
 		if ( strcmp( lineHeader, "v" ) == 0 ){
             double x, y, z;
             fscanf(file, "%lf %lf %lf\n", &x, &y, &z );
-            Vector3D vertex(x, y, z);
+            Point3D vertex(x, y, z);
 			temp_vertices.push_back(vertex);
 		}else if ( strcmp( lineHeader, "vt" ) == 0 ){
             std::pair<double, double> uv;
@@ -97,7 +97,7 @@ bool loadOBJ(
 		unsigned int normalIndex = normalIndices[i];
 
 		// Get the attributes thanks to the index
-        Vector3D vertex = temp_vertices[ vertexIndex-1 ];
+        Point3D vertex = temp_vertices[ vertexIndex-1 ];
         std::pair<float, float> uv = temp_uvs[ uvIndex-1 ];
         Vector3D normal = temp_normals[ normalIndex-1 ];
 

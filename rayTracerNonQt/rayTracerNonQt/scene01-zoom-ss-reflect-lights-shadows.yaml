@@ -37,7 +37,13 @@ Objects:
 - type: model
   position: [220,170,300]
   scale: 120
-  filename: devilduk.obj 
+  filename: lowsphere.obj
+  material: # yellow
+    diffuseColor: [0.6,0.6,0.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    exp: 64  
 - type: sphere
   position: [90,320,100]
   radius: 50
