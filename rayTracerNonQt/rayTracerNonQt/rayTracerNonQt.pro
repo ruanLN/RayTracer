@@ -2,7 +2,7 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
-#CCFLAG += -O2
+CONFIG += static
 
 SOURCES += main.cpp \
     color.cpp \
@@ -40,7 +40,8 @@ SOURCES += main.cpp \
     yaml/stream.cpp \
     scene.cpp \
     png/lodepng.cpp \
-    image.cpp
+    image.cpp \
+    objloader.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -97,7 +98,8 @@ HEADERS += \
     yaml/token.h \
     yaml/yaml.h \
     png/lodepng.h \
-    image.h
+    image.h \
+    objloader.h
 
 DISTFILES +=
 
