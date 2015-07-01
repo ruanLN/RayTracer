@@ -368,6 +368,16 @@ DrawableObject *Scene::parseObject(const YAML::Node &node)
         ((Triangle*)obj)->setV2(vertex2);
         ((Triangle*)obj)->setV3(vertex3);
     }
+    if(objectType == "model") {
+        //obj = new Triangle();
+        //Point3D vertex1, vertex2, vertex3;
+        //node["vertex1"] >> vertex1;
+        //node["vertex2"] >> vertex2;
+        //node["vertex3"] >> vertex3;
+        //((Triangle*)obj)->setV1(vertex1);
+        //((Triangle*)obj)->setV2(vertex2);
+        //((Triangle*)obj)->setV3(vertex3);
+    }
     if(obj) {
         Material objMaterial = parseMaterial(node["material"]);
         obj->setObjectMaterial(objMaterial);
