@@ -371,22 +371,28 @@ DrawableObject *Scene::parseObject(const YAML::Node &node)
         ((Triangle*)obj)->setV3(vertex3);
     }
     if(objectType == "model") {
-        obj = new Model();
+        obj = NULL;
         std::string path;
         node["filename"] >> path;
         std::vector<Point3D> out_vertices;
         std::vector<std::pair<float, float> > out_uvs;
         std::vector<Vector3D> out_normals;
         bool success = loadOBJ(path.data(), out_vertices, out_uvs, out_normals);
+        Point3D position;
+        node["position"] >> position;
+        Material objMaterial = parseMaterial(node["material"]);
         for(std::vector<Point3D>::iterator it = out_vertices.begin(); it != out_vertices.end();) {
-            Triangle face;
-            face.setV1((*it));
+            Triangle *face = new Triangle;
+            face->setV1((*it) + position.toVector());
             it++;
-            face.setV2((*it));
+            face->setV2((*it)+ position.toVector());
             it++;
-            face.setV3((*it));
+            face->setV3((*it)+ position.toVector());
             it++;
-            ((Model*)obj)->addTriangle(face);
+            face->setObjectMaterial(objMaterial);
+            face->setParentScene(this);
+            this->addObject(face);
+            //((Model*)obj)->addTriangle(face);
         }
         //obj = new Triangle();
         //Point3D vertex1, vertex2, vertex3;

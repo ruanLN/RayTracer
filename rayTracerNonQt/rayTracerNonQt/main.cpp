@@ -9,7 +9,7 @@ int main()
     Scene scene;
     scene.readScene("scene01-zoom-ss-reflect-lights-shadows.yaml");
     std::cout << "time 1, cena lida" << std::endl;
-    scene.renderScene("scene01-zoom-ss-reflect-lights-shadows-tex.png");
+    scene.renderScene("face.png");
     std::cout << "time 2, cena renderizada" << std::endl;
     return 0;
 }
