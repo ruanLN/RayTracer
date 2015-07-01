@@ -1,0 +1,97 @@
+---
+#  This is an example scene description for the raytracer framework created 
+#  for the Computer Science course "Introduction to Computer Graphics"
+#  taught at the University of Groningen by Tobias Isenberg.
+#
+#  The scene description format we use is based on YAML, which is a human friendly 
+#  data serialization standard. This gives us a flexible format which should be
+#  fairly easy to make both backward and forward compatible (i.e., by ignoring
+#  unknown directives). In addition parsers are available for many languages.
+#  See http://www.yaml.org/ for more information on YAML.
+#
+#  The example scene description should largely speak for itself. By now
+#  it should be clear that the #-character can be used to insert comments.
+
+Eye:
+    position: [0,100,1200]
+    eyeVector: [0.15,0.06,-1]
+    upVector: [0,1,0]
+    imageWidth: 800
+    imageHeight: 500
+    z-near: 1000
+    superSamplingLevel: 2
+
+RefractionLevel: 0
+ReflectionLevel: 2
+Shadows: true
+#phong, normal, z
+shadingType: phong
+
+Lights:
+- position: [-200,600,1500]
+  color: [0.4,0.4,0.8]
+- position: [600,600,1500]
+  color: [0.8,0.8,0.4]
+
+Objects:
+- type: model
+  position: [220,170,300]
+  scale: 120
+  filename: devilduk.obj 
+- type: sphere
+  position: [90,320,100]
+  radius: 50
+  texture: earth.png
+  material: # blue
+    diffuseColor: [0.0,0.0,1.0]
+    ka: 0.0
+    kd: 0.7
+    ks: 0.5
+    exp: 64
+- type: sphere
+  position: [210,270,300]
+  radius: 50
+  material: # green
+    diffuseColor: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.3
+    ks: 0.5
+    exp: 8
+- type: sphere
+  position: [290,170,150]
+  radius: 50
+  material: # red
+    diffuseColor: [1.0,0.0,0.0]
+    specularColor: [1,1,1]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.8
+    exp: 32
+- type: sphere
+  position: [140,220,400]
+  radius: 50
+  material: # yellow
+    diffuseColor: [1.0,0.8,0.0]
+    ka: 0.2
+    kd: 0.8
+    ks: 0
+    exp: 1
+- type: sphere
+  position: [110,130,200]
+  radius: 50
+  material: # orange
+    diffuseColor: [1.0,0.5,0.0]
+    ka: 0.2
+    kd: 0.8
+    ks: 0.5
+    exp: 32
+- type: sphere
+  position: [200,200,-1000]
+  radius: 1000
+  material: # grey
+    diffuseColor: [0.1,0.1,0.1]
+    specularColor: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.8
+    ks: 0.4
+    exp: 16
