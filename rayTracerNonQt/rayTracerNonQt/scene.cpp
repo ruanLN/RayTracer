@@ -1,6 +1,7 @@
-#include "scene.h"
+﻿#include "scene.h"
 #include "sphere.h"
 #include "triangle.h"
+#include "objloader.h"
 #include <sstream>
 #include <fstream>
 #include <iostream>
@@ -369,6 +370,12 @@ DrawableObject *Scene::parseObject(const YAML::Node &node)
         ((Triangle*)obj)->setV3(vertex3);
     }
     if(objectType == "model") {
+	std::string path;
+	node["filename"] >> path;
+	std::vector<Vector3D> out_vertices,
+    	std::vector<std::pair<float, float> > out_uvs,
+   	 std::vector<Vector3D> out_normals
+	bool success = loadOBJ(path.data(), out_vertices, out_uvs, out_normals);
         //obj = new Triangle();
         //Point3D vertex1, vertex2, vertex3;
         //node["vertex1"] >> vertex1;
