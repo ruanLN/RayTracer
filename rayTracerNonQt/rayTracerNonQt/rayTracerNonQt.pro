@@ -42,7 +42,8 @@ SOURCES += main.cpp \
     png/lodepng.cpp \
     image.cpp \
     objloader.cpp \
-    model.cpp
+    model.cpp \
+    plane.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -101,7 +102,8 @@ HEADERS += \
     png/lodepng.h \
     image.h \
     objloader.h \
-    model.h
+    model.h \
+    plane.h
 
 DISTFILES +=
 

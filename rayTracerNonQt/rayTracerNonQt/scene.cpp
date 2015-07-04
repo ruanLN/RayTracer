@@ -3,11 +3,13 @@
 #include "triangle.h"
 #include "objloader.h"
 #include "model.h"
+#include "plane.h"
 #include <sstream>
 #include <fstream>
 #include <iostream>
 #include <cassert>
 #include <cmath>
+#include <omp.h>
 
 void operator >> (const YAML::Node& node, Point3D& t);
 void operator >> (const YAML::Node& node, Vector3D& t);
@@ -299,6 +301,8 @@ bool Scene::renderImage(Image &img)
     Point3D imgTopLeft = imgCenter + tmp1 + tmp2;   // por algum motivo tretoso, não funcionou sem os tmp;
     double highestComponentColor = 1;
     double step = 1.0 / (eye.getSuperSamplingFactor() + 1);
+    #pragma omp parallel num_threads(4)
+    #pragma omp parallel for
     for (int x = 0; x < h; x++) {
         for (int y = 0; y < w; y++) {
             Color col;
@@ -338,6 +342,7 @@ bool Scene::renderImage(Image &img)
             }
             img.setPixel(x, y, col);
         }
+        std::cout << "rendered lines: " << x+1 << " of " << h << std::endl;
     }
     if(normalize) {
         img.normalizeImageColor(highestComponentColor);
@@ -369,6 +374,15 @@ DrawableObject *Scene::parseObject(const YAML::Node &node)
         ((Triangle*)obj)->setV1(vertex1);
         ((Triangle*)obj)->setV2(vertex2);
         ((Triangle*)obj)->setV3(vertex3);
+    }
+    if(objectType == "plane") {
+        obj = new Plane();
+        Point3D position;
+        node["position"] >> position;
+        ((Plane*)obj)->setPoint(position);
+        Vector3D normal;
+        node["normal"] >> normal;
+        ((Plane*)obj)->setNormal(normal);
     }
     if(objectType == "model") {
         obj = NULL;

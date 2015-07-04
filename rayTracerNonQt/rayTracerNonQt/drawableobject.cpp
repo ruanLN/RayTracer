@@ -130,7 +130,7 @@ Color DrawableObject::getPointColor(Intersection intersection, int depth)
                 }
             }
         }
-        reflectedColor.clamp();
+        //reflectedColor.clamp();
         //reflectedColor.normalize(highestComponentColor);
     }
     if(depth < parentScene->getRefractionLevel()) {
