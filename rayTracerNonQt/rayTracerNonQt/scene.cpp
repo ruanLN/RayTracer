@@ -9,7 +9,6 @@
 #include <iostream>
 #include <cassert>
 #include <cmath>
-#include <omp.h>
 
 void operator >> (const YAML::Node& node, Point3D& t);
 void operator >> (const YAML::Node& node, Vector3D& t);
@@ -301,8 +300,6 @@ bool Scene::renderImage(Image &img)
     Point3D imgTopLeft = imgCenter + tmp1 + tmp2;   // por algum motivo tretoso, não funcionou sem os tmp;
     double highestComponentColor = 1;
     double step = 1.0 / (eye.getSuperSamplingFactor() + 1);
-    #pragma omp parallel num_threads(4)
-    #pragma omp parallel for
     for (int x = 0; x < h; x++) {
         for (int y = 0; y < w; y++) {
             Color col;
