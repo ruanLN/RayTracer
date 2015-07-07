@@ -43,7 +43,8 @@ SOURCES += main.cpp \
     image.cpp \
     objloader.cpp \
     model.cpp \
-    plane.cpp
+    plane.cpp \
+    box.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -103,7 +104,8 @@ HEADERS += \
     image.h \
     objloader.h \
     model.h \
-    plane.h
+    plane.h \
+    box.h
 
 DISTFILES +=
 

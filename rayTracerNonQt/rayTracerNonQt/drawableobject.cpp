@@ -40,11 +40,15 @@ Color DrawableObject::getPointColor(Intersection intersection, int depth)
 
         bool success = false;
         for(itObj = objects.begin(); itObj != objects.end(); itObj++) {
-            if((*itObj) == this) {
-                continue;
-            }
+            //if((*itObj) == this) {
+            //    continue;
+            //}
             Intersection intersec = (*itObj)->hitTest(lightRay, &success);
             if(success) {
+                if((*itObj)->getObjectMaterial().getTransmissionComponent() != 0) {
+                    success = false;
+                    continue;
+                }
                 double interseDistance = (intersec.getIntersectionPoint() - actualLight.getPosition()).norm();
                 double pointDistance = (lightRay.getOrigin() - actualLight.getPosition()).norm();
                 if(interseDistance < pointDistance) {
@@ -89,7 +93,7 @@ Color DrawableObject::getPointColor(Intersection intersection, int depth)
         }
         //i = i + reflectedColor;
     }
-    Color reflectedColor, refratedColor;
+    Color reflectedColor, refractedColor;
     bool combineReflectedLight = false;
     bool combineTransmitedLight = false;
     if(depth < parentScene->getReflectionLevel()) {
@@ -134,10 +138,58 @@ Color DrawableObject::getPointColor(Intersection intersection, int depth)
         //reflectedColor.normalize(highestComponentColor);
     }
     if(depth < parentScene->getRefractionLevel()) {
+        Vector3D V = intersection.getCauseRay().getOrigin() - intersection.getIntersectionPoint();
+        V.normalize();
+        Vector3D refractedVec;// = V - intersection.getNormalVector().scalarProduct(2).scalarProduct(intersection.getNormalVector().dotProduct(V));
 
+        double cosVN = intersection.getNormalVector().dotProduct(V);
+        double senVN = sqrt(1 - cosVN*cosVN);
+        double senTN;  //transmited x normal
+        double eta = 1.0/this->objectMaterial.getTransmissionComponent();
+        double c1 = intersection.getNormalVector().dotProduct(V);;
+        double cs2 = 1 - (eta*eta) * (1 - c1*c1);
+        if(cs2 < 0) {
+            combineTransmitedLight = false;
+        } else {
+            refractedVec = V.scalarProduct(eta) + intersection.getNormalVector().scalarProduct(eta*c1 - sqrt(cs2));
+            int zBuffer = -1;
+            double highestComponentColor = 1;
+            Intersection refractedIntersection;
+            bool refractionIntersectedSomething;
+            refractedVec.normalize();
+            Ray refractedRay;
+            refractedRay.setDirection(refractedVec);
+            refractedRay.setOrigin(intersection.getIntersectionPoint());
+            //std::cout << refractedVec.toString() << std::endl;
+            for(itObj = objects.begin(); itObj != objects.end(); itObj++) {
+                //if((*itObj) == this) {
+                //    continue;
+                //}
+                refractedIntersection = (*itObj)->hitTest(refractedRay, &refractionIntersectedSomething);
+                if(refractionIntersectedSomething) {
+                    //Point3D intersecPoint = intersec.getIntersectionPoint();
+                    //std::cout << "CATCHAAA!" << std::endl;
+                    if(zBuffer > (refractedIntersection.getIntersectionPoint() - refractedRay.getOrigin()).norm() || zBuffer == -1) {
+                        //if(refractedIntersection.getT() < 0) {
+                        //    continue;
+                        //}
+                        combineTransmitedLight = true;
+                        refractedColor = (*itObj)->getPointColor(refractedIntersection, depth+1);
+                        if(refractedColor.getHighestComponent() > highestComponentColor) {
+                            highestComponentColor = reflectedColor.getHighestComponent();
+                        }
+                        zBuffer = (refractedIntersection.getIntersectionPoint() - refractedRay.getOrigin()).norm();
+                    }
+                }
+            }
+        }
     }
     if(combineReflectedLight) {
         i = i + reflectedColor * this->objectMaterial.getSpecularComponent();
+    }
+    if(combineTransmitedLight) {
+        //std::cout << refractedColor.toString() << std::endl;
+        i = i + refractedColor;
     }
 
     return i;

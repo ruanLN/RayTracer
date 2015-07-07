@@ -10,9 +10,9 @@ int main()
     Scene scene;
     clock_t t1,t2;
     t1=clock();
-    scene.readScene("scene-room.yaml");
+    scene.readScene("scene-transparence.yaml");
     //code goes here
-    scene.renderScene("scene-room.png");
+    scene.renderScene("scene-transparence.png");
     std::cout << "time 2, cena renderizada" << std::endl;
     t2=clock();
     float diff = ((float)t2-(float)t1) / CLOCKS_PER_SEC;

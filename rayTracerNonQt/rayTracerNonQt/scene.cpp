@@ -223,7 +223,7 @@ Material Scene::parseMaterial(const YAML::Node& materialNode)
         objMaterial.setAmbientMaterialColor(ambientColor);
         std::cout << "Object ambient color not found; using diffuse." << std::endl;
     }
-    double ka, kd, ks, exp;
+    double ka, kd, ks, exp, refractionIndex;
     materialNode["ka"] >> ka;
     materialNode["kd"] >> kd;
     materialNode["ks"] >> ks;
@@ -232,22 +232,15 @@ Material Scene::parseMaterial(const YAML::Node& materialNode)
     objMaterial.setDiffuseComponent(kd);
     objMaterial.setSpecularComponent(ks);
     objMaterial.setSpecularExponent(exp);
-
-    double kgr, kgt;
+    objMaterial.setTransmissionComponent(refractionIndex);
     try {
-        materialNode["kgr"] >> kgr;
-        objMaterial.setReflectionComponent(kgr);
+        materialNode["refractionIndex"] >> refractionIndex;
     }
     catch (YAML::TypedKeyNotFound<std::string> e) {
-        std::cout << "Object reflection component not found; using 1." << std::endl;
-    }
-    try {
-        materialNode["kgt"] >> kgt;
-        objMaterial.setTransmissionComponent(kgt);
-    }
-    catch (YAML::TypedKeyNotFound<std::string> e) {
+        refractionIndex = 0;
         std::cout << "Object transmission component not found; using 1." << std::endl;
     }
+    objMaterial.setTransmissionComponent(refractionIndex);
 
     return objMaterial;
 }
