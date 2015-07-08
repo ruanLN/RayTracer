@@ -356,14 +356,11 @@ DrawableObject *Scene::parseObject(const YAML::Node &node)
         ((Sphere*)obj)->setRadius(radius);
     }
     if(objectType == "triangle") {
-        obj = new Triangle();
         Point3D vertex1, vertex2, vertex3;
         node["vertex1"] >> vertex1;
         node["vertex2"] >> vertex2;
         node["vertex3"] >> vertex3;
-        ((Triangle*)obj)->setV1(vertex1);
-        ((Triangle*)obj)->setV2(vertex2);
-        ((Triangle*)obj)->setV3(vertex3);
+        obj = new Triangle(vertex1, vertex2, vertex3);
     }
     if(objectType == "plane") {
         obj = new Plane();
@@ -385,14 +382,25 @@ DrawableObject *Scene::parseObject(const YAML::Node &node)
         Point3D position;
         node["position"] >> position;
         Material objMaterial = parseMaterial(node["material"]);
-        for(std::vector<Point3D>::iterator it = out_vertices.begin(); it != out_vertices.end();) {
-            Triangle *face = new Triangle;
-            face->setV1((*it) + position.toVector());
-            it++;
-            face->setV2((*it)+ position.toVector());
-            it++;
-            face->setV3((*it)+ position.toVector());
-            it++;
+        for(int i = 0; i < out_vertices.size(); ) {
+            Point3D v1, v2, v3;
+            v1 = out_vertices[i] + position.toVector();
+            i++;
+            v2 = out_vertices[i] + position.toVector();
+            i++;
+            v3 = out_vertices[i] + position.toVector();
+            i++;
+            Triangle *face = new Triangle(v1, v2, v3);
+            if(out_uvs.size() == out_vertices.size()) {
+                face->setUvCoordV1(out_uvs[i-3]);
+                face->setUvCoordV2(out_uvs[i-2]);
+                face->setUvCoordV3(out_uvs[i-1]);
+            }
+            if(out_normals.size() == out_vertices.size()) {
+                face->setNv1(out_normals[i-3]);
+                face->setNv2(out_normals[i-2]);
+                face->setNv3(out_normals[i-1]);
+            }
             face->setObjectMaterial(objMaterial);
             face->setParentScene(this);
             this->addObject(face);

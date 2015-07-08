@@ -3,9 +3,19 @@
 
 #include <iostream>
 
-Triangle::Triangle()
+Triangle::Triangle(Point3D v1, Point3D v2, Point3D v3) :
+    v1(v1),
+    v2(v2),
+    v3(v3),
+    simpleNormal(true)
 {
-
+    Vector3D edge1, edge2;
+    edge1 = this->v2 - this->v1;
+    edge2 = this->v3 - this->v1;
+    nv1 = edge1.crossProduct(edge2);
+    nv1.normalize();
+    nv2 = nv1;
+    nv3 = nv1;
 }
 
 Intersection Triangle::hitTest(Ray ray, bool *success)
@@ -66,8 +76,9 @@ Intersection Triangle::hitTest(Ray ray, bool *success)
 
     triangleNormal.normalize();
     //triangleNormal = triangleNormal.scalarProduct(-1);
-    intersec.setNormalVector(triangleNormal);
     intersec.setIntersectionPoint(intersectionPoint);
+    intersec.setNormalVector(simpleNormal? triangleNormal : getPointNormal(intersectionPoint));
+    //intersec.setNormalVector(triangleNormal);
     intersec.setT(t);
     intersec.setCauseRay(ray);
     return intersec;
@@ -76,6 +87,17 @@ Intersection Triangle::hitTest(Ray ray, bool *success)
 Color Triangle::mapTexture(Point3D point)
 {
     return this->objectMaterial.getDiffuseMaterialColor();
+}
+
+Vector3D Triangle::getPointNormal(Point3D)  //TODO: use barycentric coordinates to map normal
+{
+    Vector3D edge1, edge2, triangleNormal;
+
+    edge1 = this->v2 - this->v1;
+    edge2 = this->v3 - this->v1;
+    triangleNormal = edge1.crossProduct(edge2);
+    triangleNormal.normalize();
+    return triangleNormal;
 }
 
 Point3D Triangle::getV1() const
@@ -105,5 +127,78 @@ void Triangle::setV3(const Point3D &value)
 {
     v3 = value;
 }
+Vector3D Triangle::getNv1() const
+{
+    return nv1;
+}
+
+void Triangle::setNv1(const Vector3D &value)
+{
+    nv1 = value;
+    simpleNormal = false;
+}
+Vector3D Triangle::getNv2() const
+{
+    return nv2;
+}
+
+void Triangle::setNv2(const Vector3D &value)
+{
+    nv2 = value;
+    simpleNormal = false;
+}
+Vector3D Triangle::getNv3() const
+{
+    return nv3;
+}
+
+void Triangle::setNv3(const Vector3D &value)
+{
+    nv3 = value;
+    simpleNormal = false;
+}
+bool Triangle::isSimpleNormal() const
+{
+    return simpleNormal;
+}
+
+void Triangle::setSimpleNormal(bool value)
+{
+    simpleNormal = value;
+}
+std::pair<float, float> Triangle::getUvCoordV1() const
+{
+    return uvCoordV1;
+}
+
+void Triangle::setUvCoordV1(const std::pair<float, float> &value)
+{
+    uvCoordV1 = value;
+}
+std::pair<float, float> Triangle::getUvCoordV2() const
+{
+    return uvCoordV2;
+}
+
+void Triangle::setUvCoordV2(const std::pair<float, float> &value)
+{
+    uvCoordV2 = value;
+}
+std::pair<float, float> Triangle::getUvCoordV3() const
+{
+    return uvCoordV3;
+}
+
+void Triangle::setUvCoordV3(const std::pair<float, float> &value)
+{
+    uvCoordV3 = value;
+}
+
+
+
+
+
+
+
 
 
